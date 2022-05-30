@@ -23,7 +23,7 @@ export class CompanyRestService {
 
   register(params: {}){
     let body = JSON.stringify(params); //CONVERTIR A JSON
-    return this.http.post(environment.baseUrl + 'user/register', body, {headers: this.httpOptions});
+    return this.http.post(environment.baseUrl + 'company/register', body, {headers: this.httpOptions});
   }
 
   login(params: {}){
