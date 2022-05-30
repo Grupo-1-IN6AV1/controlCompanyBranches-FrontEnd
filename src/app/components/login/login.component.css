@@ -93,6 +93,12 @@ text-align: center;
 
 .btn-primary:hover
 {
-  background-color: #03989E;
+  background-color: #049fa4;
+  border-color: #005A5D;
+}
+
+.btn-primary:focus
+{
+  background-color: #005A5D;
   border-color: #005A5D;
 }
