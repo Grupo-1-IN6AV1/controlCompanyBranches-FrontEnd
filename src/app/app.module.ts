@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { DashboardCompaniesComponent } from './components/compannies/dashboard-companies/dashboard-companies.component';
 import { LoginComponent } from './components/login/login.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { RegisterComponent } from './components/register/register.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     AppComponent,
     DashboardCompaniesComponent,
     LoginComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
