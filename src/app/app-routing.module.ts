@@ -5,6 +5,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { RegisterComponent } from './components/register/register.component';
 import {SetComponentsComponent} from './components/companies/set-components/set-components.component';
 import { Error404Component } from './components/error404/error404.component';
+import { SetComponentsAdminComponent } from './components/admin/set-components-admin/set-components-admin.component';
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -23,6 +24,17 @@ const routes: Routes = [
       { path: 'landingPage', component: LandingPageComponent },
     ]
   },
+  //CONTROL DE RUTAS DE ADMIN//
+  {
+    path: 'admin', component: SetComponentsAdminComponent, 
+    children:
+    [
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: 'landingPage', component: LandingPageComponent },
+    ]
+  },
+
   { path: '**', component: Error404Component}
   
 ];
