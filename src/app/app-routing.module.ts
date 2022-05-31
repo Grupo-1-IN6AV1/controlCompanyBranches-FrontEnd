@@ -4,6 +4,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { RegisterComponent } from './components/register/register.component';
 import {SetComponentsComponent} from './components/companies/set-components/set-components.component';
+import { Error404Component } from './components/error404/error404.component';
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -21,7 +22,8 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent },
       { path: 'landingPage', component: LandingPageComponent },
     ]
-  }
+  },
+  { path: '**', component: Error404Component}
   
 ];
 
