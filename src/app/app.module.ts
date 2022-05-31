@@ -13,6 +13,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { DashboardCompaniesComponent } from './components/companies/dashboard-companies/dashboard-companies.component';
 import { BodyCompaniesComponent } from './components/companies/body-companies/body-companies.component';
 import { SetComponentsComponent } from './components/companies/set-components/set-components.component';
+import { Error404Component } from './components/error404/error404.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +22,8 @@ import { SetComponentsComponent } from './components/companies/set-components/se
     RegisterComponent,
     DashboardCompaniesComponent,
     BodyCompaniesComponent,
-    SetComponentsComponent
+    SetComponentsComponent,
+    Error404Component
   ],
   imports: [
     BrowserModule,
