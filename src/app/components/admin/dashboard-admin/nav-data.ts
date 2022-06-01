@@ -1,13 +1,13 @@
 export const navbarData = [
     {
-        routeLink: 'register',
+        routeLink: '/admin',
         icon: 'fas fa-home',
-        label: 'Dashboard'
+        label: 'Home'
     },
     {
-        routeLink: 'login',
-        icon: 'fas fa-box-open',
-        label: 'Products'
+        routeLink: 'companies',
+        icon: 'fa fa-building',
+        label: 'Companies'
     },
     {
         routeLink: 'landingPage',

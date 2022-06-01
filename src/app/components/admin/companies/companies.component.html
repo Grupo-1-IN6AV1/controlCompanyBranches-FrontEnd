@@ -1,0 +1,236 @@
+<!--TÍTULO DEL COMPONENTE-->
+<div class="head-title">
+  <div class="left">
+    <h1>
+      &nbsp;<i class="fa fa-building" aria-hidden="true"></i> Companies
+    </h1>
+    <hr>
+  </div>
+</div>
+
+<!-- DESPLIEGA LA BÚSQUEDA -->
+<div class="form-input mt-5">
+  <input [(ngModel)]="searchCompany" placeholder="Search...">
+  <button type="submit" class="search-btn"><i class='fa fa-search'></i></button>
+</div>
+<br>
+
+
+<!--BOTONES DE ACCESO RÁPIDO-->
+<div class="text-center mt-2 mb-2">
+  <button class="btn btn-success btn-icon-split" data-bs-toggle="modal" data-bs-target="#addCompany">
+    <span class="icon">
+      <i class="fa fa-building" aria-hidden="true"></i>
+    </span>
+    <span class="text">Add Company</span>
+  </button>
+  <button routerLink="/admin" class="btn btn-primary btn-icon-split">
+    <span class="icon">
+        <i class="fas fa-home"></i>
+    </span>
+    <span class="text">Back Home</span>
+  </button>
+</div>
+<hr>
+
+
+<!--CARDS DE COMPANIES-->
+<div>
+  <div class="container">
+    <div class="products-container">
+      <div *ngFor="let company of companies | searchCompany:searchCompany" class="product" data-name="p-1">
+        <h5 class="card-title">{{ company.name}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{company.username}}</h6>
+        <p class="card-text">{{ company.typeCompany.name }}</p>
+        <button (click)="getCompany(company._id)" class="btn btn-success m-3" data-bs-toggle="modal"
+          data-bs-target="#updateCompany" class="btn btn-warning m-2" aria-controls="offcanvasExample">
+          <i class="fa fa-pencil" aria-hidden="true">
+          </i> Update
+        </button>
+        <button (click)="deleteCompany(company._id)" class="btn btn-danger"> <i class="fa fa-trash"
+            aria-hidden="true"></i>
+          Delete</button>
+        <button (click)="getCompany(company._id)" class="btn btn-danger" data-bs-toggle="modal"
+          data-bs-target="#viewCompany" class=" btn btn-secondary ms-2"> <i class="fa fa-eye" aria-hidden="true"></i>
+          View</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--MODAL ADD COMPANY-->
+<div class="modal fade" id="addCompany" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-building" aria-hidden="true"></i>
+          &nbsp; Add Company:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #addCompanyForm="ngForm">
+          <div class="mb-3">
+            <label for="nameTeam" class="form-label">Name</label>
+            <input [(ngModel)]="company.name" name="name" type="text" class="form-control" id="nameTeam"
+              aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="countryTeam" class="form-label">Username</label>
+            <input [(ngModel)]="company.username" name="username" type="text" class="form-control" id="countryTeam">
+          </div>
+          <div class="mb-3">
+            <label for="descriptionTeam" class="form-label">Password</label>
+            <input [(ngModel)]="company.password" name="password" type="text" class="form-control" id="descriptionTeam">
+          </div>
+          <div class="mb-3">
+            <label for="descriptionTeam" class="form-label">Email</label>
+            <input [(ngModel)]="company.email" name="email" type="text" class="form-control" id="descriptionTeam">
+          </div>
+          <div class="mb-3">
+            <label for="descriptionTeam" class="form-label">Phone</label>
+            <input [(ngModel)]="company.phone" name="phone" type="text" class="form-control" id="descriptionTeam">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Type Company</label>
+            <select [(ngModel)]="company.typeCompany" name="typeCompany" class="form-select"
+              aria-label="Default select example">
+              <option disabled value="" selected>Choose a Type Company</option>
+              <option *ngFor="let typeCompany of typeCompanies" value="{{ typeCompany._id }}">{{typeCompany.name}}
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class=" modal-footer justify-content-center">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Save</button>
+        <button (click)="saveCompany(addCompanyForm)" type="submit" class="btn btn-success" data-bs-dismiss="modal"><i
+            class="fa fa-floppy-o" aria-hidden="true"></i> Save Company
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SHOW COMPANY -->
+<div>
+  <div class="modal fade" id="viewCompany" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div *ngIf="companyView" class="modal-body">
+          <div class="descripcion">
+            <div class="count-container">
+
+              <div class="box">
+                <h3>Name:</h3>
+              </div>
+
+              <div class="box">
+                <p>{{companyView.name}}</p>
+              </div>
+
+              <div class="box">
+                <h3>Username:</h3>
+              </div>
+
+              <div class="box">
+                <p>{{companyView.username}}</p>
+              </div>
+
+              <div class="box">
+                <h3>Email:</h3>
+              </div>
+
+              <div class="box">
+                <p>{{companyView.email}}</p>
+              </div>
+
+              <div class="box">
+                <h3>Phone:</h3>
+              </div>
+
+              <div class="box">
+                <p>{{companyView.phone}}</p>
+              </div>
+
+              <div class="box">
+                <h3>Type Company:</h3>
+              </div>
+
+              <div class="box">
+                <p>{{companyView.typeCompany.name}}</p>
+              </div>
+
+              <div class="box">
+                <h3>Role:</h3>
+              </div>
+
+              <div class="box">
+                <p>{{companyView.role}}</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL UPDATE COMPANY -->
+<div class="modal fade" id="updateCompany" tabindex="-1" aria-labelledby="updateCompany" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-pencil" aria-hidden="true"></i>
+          Update Company:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form (ngSubmit)="updateCompany()" *ngIf="companyUpdate">
+          <div class="mb-3">
+            <label for="nameUpdate" class="form-label">Name</label>
+            <input [(ngModel)]="companyUpdate.name" name="name" type="text" class="form-control" id="nameUpdate"
+              aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="surnameUpdate" class="form-label">Username</label>
+            <input [(ngModel)]="companyUpdate.username" name="username" type="text" class="form-control" id="surnameUpdate">
+          </div>
+          <div class="mb-3">
+            <label for="usernameUpdate" class="form-label">Email</label>
+            <input [(ngModel)]="companyUpdate.email" name="email" type="text" class="form-control"
+              id="usernameUpdate">
+          </div>
+          <div class="mb-3">
+            <label for="usernameUpdate" class="form-label">Phone</label>
+            <input [(ngModel)]="companyUpdate.phone" name="phone" type="text" class="form-control"
+              id="usernameUpdate">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Type Company</label>
+            <select [(ngModel)]="companyUpdate.typeCompany" name="typeCompany" class="form-select"
+              aria-label="Default select example">
+              <option disabled value="{{companyUpdate.typeCompany}}" selected>{{companyUpdate.typeCompany.name}}</option>
+              <option *ngFor="let typeCompany of typeCompanies" value="{{ typeCompany._id }}">{{typeCompany.name}}
+              </option>
+            </select>
+          </div>
+          <div class=" modal-footer justify-content-center">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+              <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Update</button>
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i class="fa fa-floppy-o"
+                aria-hidden="true"></i> Update Company
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

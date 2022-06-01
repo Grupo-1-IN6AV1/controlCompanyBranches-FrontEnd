@@ -6,6 +6,7 @@ import { RegisterComponent } from './components/register/register.component';
 import {SetComponentsComponent} from './components/companies/set-components/set-components.component';
 import { Error404Component } from './components/error404/error404.component';
 import { SetComponentsAdminComponent } from './components/admin/set-components-admin/set-components-admin.component';
+import { CompaniesComponent } from './components/admin/companies/companies.component';
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -29,9 +30,7 @@ const routes: Routes = [
     path: 'admin', component: SetComponentsAdminComponent, 
     children:
     [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'landingPage', component: LandingPageComponent },
+      { path: 'companies', component: CompaniesComponent },
     ]
   },
 

@@ -17,6 +17,9 @@ import { Error404Component } from './components/error404/error404.component';
 import { BodyAdminComponent } from './components/admin/body-admin/body-admin.component';
 import { DashboardAdminComponent } from './components/admin/dashboard-admin/dashboard-admin.component';
 import { SetComponentsAdminComponent } from './components/admin/set-components-admin/set-components-admin.component';
+import { CompaniesComponent } from './components/admin/companies/companies.component';
+import { SearchCompanyPipe } from './pipes/companyPipe/search-company.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +32,9 @@ import { SetComponentsAdminComponent } from './components/admin/set-components-a
     Error404Component,
     BodyAdminComponent,
     DashboardAdminComponent,
-    SetComponentsAdminComponent
+    SetComponentsAdminComponent,
+    CompaniesComponent,
+    SearchCompanyPipe
   ],
   imports: [
     BrowserModule,

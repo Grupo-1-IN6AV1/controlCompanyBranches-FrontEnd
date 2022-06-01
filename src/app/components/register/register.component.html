@@ -47,7 +47,7 @@
                             <div class="col-md-6 mb-4">
           
                               <select [(ngModel)]="company.typeCompany" name="typeCompany" class="select">
-                                <option disabled value="" selected >Choose a team</option>
+                                <option disabled value="" selected >Choose a Type Company</option>
                                 <option *ngFor="let typeCompani of typeCompany " value="{{ typeCompani._id }}">{{typeCompani.name}}</option>
                               </select>
         

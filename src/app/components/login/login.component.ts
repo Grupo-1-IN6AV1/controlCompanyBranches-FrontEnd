@@ -37,6 +37,13 @@ export class LoginComponent implements OnInit {
           html:'Welcome <b>'+ res.already.username+'</b>',
           confirmButtonColor: '#28B463'
         })
+
+        const verificarAdmin = res.already.role;
+        //VERIFICA A DONDE LLEVARME//
+        if(verificarAdmin == 'ADMIN')
+         {this.router.navigate(['/admin']);}
+        else
+        {this.router.navigate(['/companies'])}
       },
       error: (err: any) => {
         Swal.fire({

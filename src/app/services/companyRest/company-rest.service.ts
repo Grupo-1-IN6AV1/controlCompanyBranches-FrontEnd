@@ -20,7 +20,6 @@ export class CompanyRestService {
   }
 
   //Solicitudes HTTP propias de la entidad Usuario
-
   register(params: {}){
     let body = JSON.stringify(params); //CONVERTIR A JSON
     return this.http.post(environment.baseUrl + 'company/register', body, {headers: this.httpOptions});
@@ -52,4 +51,5 @@ export class CompanyRestService {
     }
     return identity;
   }
+
 }
