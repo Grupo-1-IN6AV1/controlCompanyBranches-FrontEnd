@@ -19,7 +19,9 @@ import { DashboardAdminComponent } from './components/admin/dashboard-admin/dash
 import { SetComponentsAdminComponent } from './components/admin/set-components-admin/set-components-admin.component';
 import { CompaniesComponent } from './components/admin/companies/companies.component';
 import { SearchCompanyPipe } from './pipes/companyPipe/search-company.pipe';
-
+import { HomeAdminComponent } from './components/admin/home-admin/home-admin.component';
+import { TownshipsComponent } from './components/admin/townships/townships.component';
+import { SearchTownshipPipe } from './pipes/townshipPipe/search-township.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +36,10 @@ import { SearchCompanyPipe } from './pipes/companyPipe/search-company.pipe';
     DashboardAdminComponent,
     SetComponentsAdminComponent,
     CompaniesComponent,
-    SearchCompanyPipe
+    SearchCompanyPipe,
+    HomeAdminComponent,
+    TownshipsComponent,
+    SearchTownshipPipe
   ],
   imports: [
     BrowserModule,

@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
         const verificarAdmin = res.already.role;
         //VERIFICA A DONDE LLEVARME//
         if(verificarAdmin == 'ADMIN')
-         {this.router.navigate(['/admin']);}
+         {this.router.navigate(['/admin/home']);}
         else
         {this.router.navigate(['/companies'])}
       },

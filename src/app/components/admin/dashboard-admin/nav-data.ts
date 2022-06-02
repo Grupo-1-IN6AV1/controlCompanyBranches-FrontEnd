@@ -1,6 +1,6 @@
 export const navbarData = [
     {
-        routeLink: '/admin',
+        routeLink: 'home',
         icon: 'fas fa-home',
         label: 'Home'
     },
@@ -10,9 +10,9 @@ export const navbarData = [
         label: 'Companies'
     },
     {
-        routeLink: 'landingPage',
-        icon: 'fas fa-chart-bar',
-        label: 'Statistics'
+        routeLink: 'townships',
+        icon: 'fa fa-map-marker',
+        label: 'TownShips'
     },
     {
         routeLink: 'coupens',
