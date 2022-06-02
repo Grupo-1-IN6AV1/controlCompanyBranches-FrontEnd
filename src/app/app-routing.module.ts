@@ -10,6 +10,7 @@ import { CompaniesComponent } from './components/admin/companies/companies.compo
 import { HomeAdminComponent } from './components/admin/home-admin/home-admin.component';
 import { TownshipsComponent } from './components/admin/townships/townships.component';
 import { TypeCompanyComponent } from './components/admin/type-company/type-company.component';
+import { ProductsComponent } from './components/admin/products/products.component';
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -37,6 +38,7 @@ const routes: Routes = [
       { path: 'companies', component: CompaniesComponent },
       { path: 'townships', component: TownshipsComponent},
       { path: 'typeCompany', component: TypeCompanyComponent},
+      { path: 'products', component: ProductsComponent},
     ]
   },
 

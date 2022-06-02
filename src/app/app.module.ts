@@ -24,6 +24,8 @@ import { TownshipsComponent } from './components/admin/townships/townships.compo
 import { SearchTownshipPipe } from './pipes/townshipPipe/search-township.pipe';
 import { TypeCompanyComponent } from './components/admin/type-company/type-company.component';
 import { SearchTypeCompanyPipe } from './pipes/typeCompanyPipe/search-type-company.pipe';
+import { ProductsComponent } from './components/admin/products/products.component';
+import { SearchProductPipe } from './pipes/productPipe/search-product.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +45,9 @@ import { SearchTypeCompanyPipe } from './pipes/typeCompanyPipe/search-type-compa
     TownshipsComponent,
     SearchTownshipPipe,
     TypeCompanyComponent,
-    SearchTypeCompanyPipe
+    SearchTypeCompanyPipe,
+    ProductsComponent,
+    SearchProductPipe
   ],
   imports: [
     BrowserModule,
