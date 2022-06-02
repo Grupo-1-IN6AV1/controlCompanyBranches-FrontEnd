@@ -20,9 +20,9 @@ export const navbarData = [
         label: 'Type Companies'
     },
     {
-        routeLink: 'pages',
-        icon: 'fas fa-file',
-        label: 'Pages'
+        routeLink: 'products',
+        icon: 'fas fa-shopping-bag',
+        label: 'Products'
     },
     {
         routeLink: 'media',

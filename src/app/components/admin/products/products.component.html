@@ -1,0 +1,218 @@
+<!--TÍTULO DEL COMPONENTE-->
+<div class="head-title">
+    <div class="left">
+        <h1>
+            &nbsp;<i class="fas fa-shopping-bag" aria-hidden="true"></i> Products
+        </h1>
+        <hr>
+    </div>
+</div>
+
+
+<!-- DESPLIEGA LA BÚSQUEDA -->
+<div class="form-input mt-5">
+    <input [(ngModel)]="searchProduct" placeholder="Search...">
+    <button type="submit" class="search-btn"><i class='fa fa-search'></i></button>
+</div>
+<br>
+
+
+<!--BOTONES DE ACCESO RÁPIDO-->
+<div class="text-center mt-2 mb-2">
+    <button class="btn btn-success btn-icon-split" data-bs-toggle="modal" data-bs-target="#addProduct">
+        <span class="icon">
+            <i class="fas fa-shopping-bag" aria-hidden="true"></i>
+        </span>
+        <span class="text">Add Product</span>
+    </button>
+    <button routerLink="/admin/home" class="btn btn-primary btn-icon-split">
+        <span class="icon">
+            <i class="fas fa-home"></i>
+        </span>
+        <span class="text">Back Home</span>
+    </button>
+</div>
+<hr>
+
+
+<!--CARDS DE PRODUCTS-->
+<div>
+    <div class="container">
+        <div class="products-container">
+            <div *ngFor="let product of allProducts | searchProduct:searchProduct" class="product" data-name="p-1">
+                <h5 class="card-title">{{product.name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"> {{product.company.name}} </h6>
+                <h6 class="card-subtitle mb-2 text-muted"> Q.{{product.price}} </h6>
+                <button (click)="getProduct(product._id)" class="btn btn-success m-3" data-bs-toggle="modal"
+                    data-bs-target="#updateProduct" class="btn btn-warning m-2" aria-controls="offcanvasExample">
+                    <i class="fa fa-pencil" aria-hidden="true">
+                    </i> Update
+                </button>
+                <button (click)="deleteProduct(product._id)" class="btn btn-danger"> <i class="fa fa-trash"
+                        aria-hidden="true"></i>
+                    Delete</button>
+                <button (click)="getProduct(product._id)" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#viewProduct" class=" btn btn-secondary ms-2"> <i class="fa fa-eye"
+                        aria-hidden="true"></i>
+                    View</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--MODAL ADD TYPE COMPANY-->
+<div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-shopping-bag" aria-hidden="true"></i>
+                    &nbsp; Add Product:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #addProductForm="ngForm">
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Name</label>
+                        <input [(ngModel)]="product.name" name="name" type="text" class="form-control" id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Description</label>
+                        <input [(ngModel)]="product.description" name="description" type="text" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Price</label>
+                        <input [(ngModel)]="product.price" min="0" name="price" type="number" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Provider Name</label>
+                        <input [(ngModel)]="product.providerName" name="providerName" type="text" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Stock</label>
+                        <input [(ngModel)]="product.stock" min="0" name="stock" type="number" class="form-control"
+                            id="nameTeam">
+                    </div>
+                </form>
+            </div>
+            <div class=" modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i>Discard Save</button>
+                <button (click)="saveProduct(addProductForm)" type="submit" class="btn btn-success"
+                    data-bs-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Product
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL UPDATE PRODUCT -->
+<div class="modal fade" id="updateProduct" tabindex="-1" aria-labelledby="updateProduct" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-pencil" aria-hidden="true"></i>
+                    Update Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="updateProduct()" *ngIf="productUpdate">
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Name</label>
+                        <input [(ngModel)]="productUpdate.name" name="name" type="text" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Description</label>
+                        <input [(ngModel)]="productUpdate.description" name="description" type="text"
+                            class="form-control" id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Price</label>
+                        <input [(ngModel)]="productUpdate.price" min="0" name="price" type="number" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Provider Name</label>
+                        <input [(ngModel)]="productUpdate.providerName" name="providerName" type="text"
+                            class="form-control" id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Stock</label>
+                        <input [(ngModel)]="productUpdate.stock" min="0" name="stock" type="number" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Update</button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i> Update Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL SHOW PRODUCT -->
+<div>
+    <div class="modal fade" id="viewProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div *ngIf="productView" class="modal-body">
+            <div class="descripcion">
+              <div class="count-container">
+  
+                <div class="box">
+                  <h3>Name:</h3>
+                </div>
+  
+                <div class="box">
+                  <p>{{productView.name}}</p>
+                </div>
+  
+                <div class="box">
+                  <h3>Description:</h3>
+                </div>
+  
+                <div class="box">
+                  <p>{{productView.description}}</p>
+                </div>
+  
+                <div class="box">
+                  <h3>Price:</h3>
+                </div>
+  
+                <div class="box">
+                  <p>Q.{{productView.price}}</p>
+                </div>
+  
+                <div class="box">
+                  <h3>Provider Name:</h3>
+                </div>
+  
+                <div class="box">
+                  <p>{{productView.providerName}}</p>
+                </div>
+  
+                <div class="box">
+                  <h3>Stock:</h3>
+                </div>
+  
+                <div class="box">
+                  <p>{{productView.stock}}</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
