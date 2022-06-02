@@ -17,6 +17,11 @@ import { Error404Component } from './components/error404/error404.component';
 import { BodyAdminComponent } from './components/admin/body-admin/body-admin.component';
 import { DashboardAdminComponent } from './components/admin/dashboard-admin/dashboard-admin.component';
 import { SetComponentsAdminComponent } from './components/admin/set-components-admin/set-components-admin.component';
+import { CompaniesComponent } from './components/admin/companies/companies.component';
+import { SearchCompanyPipe } from './pipes/companyPipe/search-company.pipe';
+import { HomeAdminComponent } from './components/admin/home-admin/home-admin.component';
+import { TownshipsComponent } from './components/admin/townships/townships.component';
+import { SearchTownshipPipe } from './pipes/townshipPipe/search-township.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +34,12 @@ import { SetComponentsAdminComponent } from './components/admin/set-components-a
     Error404Component,
     BodyAdminComponent,
     DashboardAdminComponent,
-    SetComponentsAdminComponent
+    SetComponentsAdminComponent,
+    CompaniesComponent,
+    SearchCompanyPipe,
+    HomeAdminComponent,
+    TownshipsComponent,
+    SearchTownshipPipe
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,9 @@ import { RegisterComponent } from './components/register/register.component';
 import {SetComponentsComponent} from './components/companies/set-components/set-components.component';
 import { Error404Component } from './components/error404/error404.component';
 import { SetComponentsAdminComponent } from './components/admin/set-components-admin/set-components-admin.component';
+import { CompaniesComponent } from './components/admin/companies/companies.component';
+import { HomeAdminComponent } from './components/admin/home-admin/home-admin.component';
+import { TownshipsComponent } from './components/admin/townships/townships.component';
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -29,9 +32,9 @@ const routes: Routes = [
     path: 'admin', component: SetComponentsAdminComponent, 
     children:
     [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'landingPage', component: LandingPageComponent },
+      { path: 'home', component: HomeAdminComponent},
+      { path: 'companies', component: CompaniesComponent },
+      { path: 'townships', component: TownshipsComponent},
     ]
   },
 

@@ -1,0 +1,114 @@
+<!--TÍTULO DEL COMPONENTE-->
+<div class="head-title">
+    <div class="left">
+        <h1>
+            &nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i> TownShips
+        </h1>
+        <hr>
+    </div>
+</div>
+
+
+<!-- DESPLIEGA LA BÚSQUEDA -->
+<div class="form-input mt-5">
+    <input [(ngModel)]="searchTownship" placeholder="Search...">
+    <button type="submit" class="search-btn"><i class='fa fa-search'></i></button>
+</div>
+<br>
+
+
+<!--BOTONES DE ACCESO RÁPIDO-->
+<div class="text-center mt-2 mb-2">
+    <button class="btn btn-success btn-icon-split" data-bs-toggle="modal" data-bs-target="#addTownShip">
+        <span class="icon">
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
+        </span>
+        <span class="text">Add TownShip</span>
+    </button>
+    <button routerLink="/admin/home" class="btn btn-primary btn-icon-split">
+        <span class="icon">
+            <i class="fas fa-home"></i>
+        </span>
+        <span class="text">Back Home</span>
+    </button>
+</div>
+<hr>
+
+
+<!--CARDS DE TOWNSHIPS-->
+<div>
+    <div class="container">
+        <div class="products-container">
+            <div *ngFor="let township of townships | searchTownship:searchTownship" class="product" data-name="p-1">
+                <h5 class="card-title">{{township.name}}</h5>
+                <button (click)="getTownship(township._id)" class="btn btn-success m-3" data-bs-toggle="modal" data-bs-target="#updateTownship"
+                    class="btn btn-warning m-2" aria-controls="offcanvasExample">
+                    <i class="fa fa-pencil" aria-hidden="true">
+                    </i> Update
+                </button>
+                <button (click)="deleteTownship(township._id)" class="btn btn-danger"> <i class="fa fa-trash"
+                        aria-hidden="true"></i>
+                    Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--MODAL ADD TOWNSHIP-->
+<div class="modal fade" id="addTownShip" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-map-marker" aria-hidden="true"></i>
+                    &nbsp; Add Township:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #addTownshipForm="ngForm">
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Name</label>
+                        <input [(ngModel)]="township.name" name="name" type="text" class="form-control" id="nameTeam">
+                    </div>
+                </form>
+            </div>
+            <div class=" modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Save</button>
+                <button (click)="saveTownship(addTownshipForm)" type="submit" class="btn btn-success"
+                    data-bs-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Township
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL UPDATE TOWNSHIP -->
+<div class="modal fade" id="updateTownship" tabindex="-1" aria-labelledby="updateTownship" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-pencil" aria-hidden="true"></i>
+                    Update Township:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="updateTownship()" *ngIf="townshipUpdate">
+                    <div class="mb-3">
+                        <label for="nameUpdate" class="form-label">Name</label>
+                        <input [(ngModel)]="townshipUpdate.name" name="name" type="text" class="form-control"
+                            id="nameUpdate" aria-describedby="emailHelp">
+                    </div>
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Update</button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i> Update Township
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
