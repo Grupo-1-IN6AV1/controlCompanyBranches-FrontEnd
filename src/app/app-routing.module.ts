@@ -9,6 +9,7 @@ import { SetComponentsAdminComponent } from './components/admin/set-components-a
 import { CompaniesComponent } from './components/admin/companies/companies.component';
 import { HomeAdminComponent } from './components/admin/home-admin/home-admin.component';
 import { TownshipsComponent } from './components/admin/townships/townships.component';
+import { TypeCompanyComponent } from './components/admin/type-company/type-company.component';
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -35,6 +36,7 @@ const routes: Routes = [
       { path: 'home', component: HomeAdminComponent},
       { path: 'companies', component: CompaniesComponent },
       { path: 'townships', component: TownshipsComponent},
+      { path: 'typeCompany', component: TypeCompanyComponent},
     ]
   },
 

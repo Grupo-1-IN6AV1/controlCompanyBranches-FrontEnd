@@ -15,9 +15,9 @@ export const navbarData = [
         label: 'TownShips'
     },
     {
-        routeLink: 'coupens',
-        icon: 'fas fa-tags',
-        label: 'Coupens'
+        routeLink: 'typeCompany',
+        icon: 'fas fa-store',
+        label: 'Type Companies'
     },
     {
         routeLink: 'pages',
