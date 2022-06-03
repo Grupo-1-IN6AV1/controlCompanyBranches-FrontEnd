@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductModel } from 'src/app/models/product.model';
 import { ProductRestService } from 'src/app/services/productRest/product-rest.service';
+import { CompanyRestService } from 'src/app/services/companyRest/company-rest.service';
+import { CargarScriptsService } from 'src/app/cargar-scripts.service';
 import Swal from 'sweetalert2';
+import { CompanyAdminRestService } from 'src/app/services/companyAdminRest/company-admin-rest.service';
 
 @Component({
   selector: 'app-products-company',
@@ -16,20 +19,26 @@ export class ProductsCompanyComponent implements OnInit {
   searchProduct: any;
   productUpdate: any;
   productView:any;
-
+  companyName: any;
+  showTableProducts: boolean = false;
 
   constructor(
-    private productRest: ProductRestService
+    private productRest: ProductRestService,
+    private company : CompanyRestService,
+    private companyRest: CompanyAdminRestService,
+    private _CargarScripts: CargarScriptsService,
   ) {
-    this.product = new ProductModel('', '', '', 0, '', 0, '')
+    this.product = new ProductModel('', '', '', 0, '', 0, ''),
+    _CargarScripts.Carga(["datatable"]);
   }
 
   ngOnInit(): void {
     this.getProducts();
+    this.userLogin();
   }
 
   getProducts() {
-    this.productRest.getProduct().subscribe({
+    this.productRest.getProductCompany().subscribe({
       next: (res: any) => this.allProducts = res.products,
       error: (err) => console.log(err)
     })
@@ -127,6 +136,21 @@ export class ProductsCompanyComponent implements OnInit {
         });
       },
     })
+  }
+
+  userLogin()
+  {
+    this.companyRest.getCompany(this.company.getIdentity()._id).subscribe({
+      next: (res: any) => {
+        this.companyName = res.getCompany.name;
+      },
+      error: (err) => {alert(err.error.message)}
+    })
+  }
+
+  showTable()
+  {
+    this.showTableProducts =! this.showTableProducts;
   }
 
 }

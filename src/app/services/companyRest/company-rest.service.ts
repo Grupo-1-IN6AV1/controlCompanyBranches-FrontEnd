@@ -7,9 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class CompanyRestService {
 
-  httpOptions = new HttpHeaders({
-    'Content-Type': 'application/json'
-  });
+  httpOptions = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     private http: HttpClient

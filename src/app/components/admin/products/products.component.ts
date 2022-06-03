@@ -19,6 +19,7 @@ export class ProductsComponent implements OnInit {
   productUpdate: any;
   productView:any;
   companies : any;
+  showTableProducts: boolean = false;
 
 
   constructor(
@@ -141,6 +142,11 @@ export class ProductsComponent implements OnInit {
         });
       },
     })
+  }
+
+  showTable()
+  {
+    this.showTableProducts =! this.showTableProducts;
   }
 
 }

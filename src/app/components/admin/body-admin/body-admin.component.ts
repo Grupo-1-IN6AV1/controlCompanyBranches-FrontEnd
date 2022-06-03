@@ -41,6 +41,7 @@ export class BodyAdminComponent implements OnInit
   logOut()
   {
     localStorage.clear(); 
+    window.location.replace('/login')
   }
 
   userLogin()

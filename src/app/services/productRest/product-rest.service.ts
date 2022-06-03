@@ -43,6 +43,11 @@ export class ProductRestService {
 
 
   //COMPANY//
+
+  getProductCompany(){
+    return this.http.get(environment.baseUrl + 'companyProduct/getProductsCompany', {headers: this.httpOptions});
+  }
+
   saveProduct(params:{}){
     return this.http.post(environment.baseUrl + 'companyProduct/saveProduct', params ,{headers: this.httpOptions});
   }
