@@ -11,6 +11,7 @@ import { HomeAdminComponent } from './components/admin/home-admin/home-admin.com
 import { TownshipsComponent } from './components/admin/townships/townships.component';
 import { TypeCompanyComponent } from './components/admin/type-company/type-company.component';
 import { ProductsComponent } from './components/admin/products/products.component';
+import { HomeCompanyComponent } from './components/companies/home-company/home-company.component';
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -24,9 +25,7 @@ const routes: Routes = [
     path: 'companies', component: SetComponentsComponent, 
     children:
     [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'landingPage', component: LandingPageComponent },
+      { path: 'home', component: HomeCompanyComponent},
     ]
   },
   //CONTROL DE RUTAS DE ADMIN//

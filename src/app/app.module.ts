@@ -26,6 +26,7 @@ import { TypeCompanyComponent } from './components/admin/type-company/type-compa
 import { SearchTypeCompanyPipe } from './pipes/typeCompanyPipe/search-type-company.pipe';
 import { ProductsComponent } from './components/admin/products/products.component';
 import { SearchProductPipe } from './pipes/productPipe/search-product.pipe';
+import { HomeCompanyComponent } from './components/companies/home-company/home-company.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +48,8 @@ import { SearchProductPipe } from './pipes/productPipe/search-product.pipe';
     TypeCompanyComponent,
     SearchTypeCompanyPipe,
     ProductsComponent,
-    SearchProductPipe
+    SearchProductPipe,
+    HomeCompanyComponent
   ],
   imports: [
     BrowserModule,

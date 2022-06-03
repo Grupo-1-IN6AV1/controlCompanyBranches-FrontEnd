@@ -5,6 +5,7 @@ export class ProductModel {
         public description: string,
         public price:  number,
         public providerName: string,
-        public stock: number
+        public stock: number,
+        public company: string
     ){}
 }

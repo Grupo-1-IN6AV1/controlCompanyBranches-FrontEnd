@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
         if(verificarAdmin == 'ADMIN')
          {this.router.navigate(['/admin/home']);}
         else
-        {this.router.navigate(['/companies'])}
+        {this.router.navigate(['/companies/home'])}
       },
       error: (err: any) => {
         Swal.fire({
@@ -54,5 +54,4 @@ export class LoginComponent implements OnInit {
       },
     })
   }
-
 }
