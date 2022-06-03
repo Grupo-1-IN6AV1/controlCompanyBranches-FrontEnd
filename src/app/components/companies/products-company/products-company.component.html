@@ -237,8 +237,8 @@
         <h6 class="m-0 font-weight-bold colorTable">Products of "{{companyName}}"</h6>
     </div>
     <div class="form-input-table mt-3 ms-auto">
-        <input [(ngModel)]="searchProduct" placeholder="Search...">
-        <button type="submit" class="search-btn"><i class='fa fa-search'></i></button>
+        <input [(ngModel)]="searchProduct" [(ngModel)]="searchProductProvider" placeholder="Search...">
+        <button (click)="getProductProvider(searchProductProvider)" type="submit" class="search-btn"><i class='fa fa-search'></i></button>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -265,6 +265,14 @@
                 </tfoot>
                 <tbody>
                     <tr *ngFor="let product of allProducts | searchProduct:searchProduct">
+                        <td>{{allProducts.indexOf(product)+1}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{product.price}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                    <tr *ngFor="let product of searchProductProvider">
                         <td>{{allProducts.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>

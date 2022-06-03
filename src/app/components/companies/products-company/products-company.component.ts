@@ -19,6 +19,8 @@ export class ProductsCompanyComponent implements OnInit {
   searchProduct: any;
   productUpdate: any;
   productView:any;
+  productProvider: any;
+  searchProductProvider: any;
   companyName: any;
   showTableProducts: boolean = false;
 
@@ -49,6 +51,18 @@ export class ProductsCompanyComponent implements OnInit {
       next: (res: any) => {
         this.productView = res.products;
         this.productUpdate = res.products;
+      },
+      error: (err) => {alert(err.error.message)}
+    })
+  }
+
+  getProductProvider(providerName: string)
+  {
+    let data = {providerName: providerName}
+    console.log(data);
+    this.productRest.getProductProvider(data).subscribe({
+      next: (res: any) => {
+        this.searchProductProvider = res.product;
       },
       error: (err) => {alert(err.error.message)}
     })
