@@ -27,6 +27,7 @@ import { SearchTypeCompanyPipe } from './pipes/typeCompanyPipe/search-type-compa
 import { ProductsComponent } from './components/admin/products/products.component';
 import { SearchProductPipe } from './pipes/productPipe/search-product.pipe';
 import { HomeCompanyComponent } from './components/companies/home-company/home-company.component';
+import { ProductsCompanyComponent } from './components/companies/products-company/products-company.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +50,8 @@ import { HomeCompanyComponent } from './components/companies/home-company/home-c
     SearchTypeCompanyPipe,
     ProductsComponent,
     SearchProductPipe,
-    HomeCompanyComponent
+    HomeCompanyComponent,
+    ProductsCompanyComponent
   ],
   imports: [
     BrowserModule,
