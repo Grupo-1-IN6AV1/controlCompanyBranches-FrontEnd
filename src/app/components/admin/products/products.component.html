@@ -10,7 +10,7 @@
 
 
 <!-- DESPLIEGA LA BÚSQUEDA -->
-<div class="form-input mt-5">
+<div *ngIf="!showTableProducts" class="form-input mt-5">
     <input [(ngModel)]="searchProduct" placeholder="Search...">
     <button type="submit" class="search-btn"><i class='fa fa-search'></i></button>
 </div>
@@ -25,6 +25,18 @@
         </span>
         <span class="text">Add Product</span>
     </button>
+    <button *ngIf="!showTableProducts" (click)="showTable()" class="btn btn-secondary btn-icon-split">
+        <span class="icon">
+            <i class="fa fa-table" aria-hidden="true"></i>
+        </span>
+        <span class="text">Table Products</span>
+    </button>
+    <button *ngIf="showTableProducts" (click)="showTable()" class="btn btn-secondary btn-icon-split">
+        <span class="icon">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </span>
+        <span class="text">Return Cards</span>
+    </button>
     <button routerLink="/admin/home" class="btn btn-primary btn-icon-split">
         <span class="icon">
             <i class="fas fa-home"></i>
@@ -36,7 +48,7 @@
 
 
 <!--CARDS DE PRODUCTS-->
-<div>
+<div *ngIf="!showTableProducts">
     <div class="container">
         <div class="products-container">
             <div *ngFor="let product of allProducts | searchProduct:searchProduct" class="product" data-name="p-1">
@@ -97,11 +109,13 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Company</label>
-                        <select [(ngModel)]="product.company" name="user" class="form-select" aria-label="Default select example">
-                          <option disabled value="" selected>Choose a Company</option>
-                          <option *ngFor="let company of companies" value="{{ company._id }}">{{company.name}}</option>
+                        <select [(ngModel)]="product.company" name="user" class="form-select"
+                            aria-label="Default select example">
+                            <option disabled value="" selected>Choose a Company</option>
+                            <option *ngFor="let company of companies" value="{{ company._id }}">{{company.name}}
+                            </option>
                         </select>
-                      </div>
+                    </div>
                 </form>
             </div>
             <div class=" modal-footer justify-content-center">
@@ -167,67 +181,117 @@
 <!-- MODAL SHOW PRODUCT -->
 <div>
     <div class="modal fade" id="viewProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div *ngIf="productView" class="modal-body">
-            <div class="descripcion">
-              <div class="count-container">
-  
-                <div class="box">
-                  <h3>Name:</h3>
-                </div>
-  
-                <div class="box">
-                  <p>{{productView.name}}</p>
-                </div>
-  
-                <div class="box">
-                  <h3>Description:</h3>
-                </div>
-  
-                <div class="box">
-                  <p>{{productView.description}}</p>
-                </div>
-  
-                <div class="box">
-                  <h3>Price:</h3>
-                </div>
-  
-                <div class="box">
-                  <p>Q.{{productView.price}}</p>
-                </div>
-  
-                <div class="box">
-                  <h3>Provider Name:</h3>
-                </div>
-  
-                <div class="box">
-                  <p>{{productView.providerName}}</p>
-                </div>
-  
-                <div class="box">
-                  <h3>Stock:</h3>
-                </div>
-  
-                <div class="box">
-                  <p>{{productView.stock}} unidades</p>
-                </div>
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div *ngIf="productView" class="modal-body">
+                    <div class="descripcion">
+                        <div class="count-container">
 
-                <div class="box">
-                    <h3>Company:</h3>
-                  </div>
+                            <div class="box">
+                                <h3>Name:</h3>
+                            </div>
 
-                <div class="box">
-                    <p>{{productView.company.name}}</p>
-                  </div>
+                            <div class="box">
+                                <p>{{productView.name}}</p>
+                            </div>
 
-              </div>
+                            <div class="box">
+                                <h3>Description:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.description}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Price:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>Q.{{productView.price}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Provider Name:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.providerName}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Stock:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.stock}} unidades</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Company:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.company.name}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
+
+<!--TABLE OF PRODUCTS-->
+<div *ngIf="showTableProducts" class="card shadow mb-4 mt-5">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold colorTable">Products of "Admin"</h6>
+    </div>
+    <div class="form-input-table mt-3 ms-auto">
+        <input [(ngModel)]="searchProduct" placeholder="Search...">
+        <button type="submit" class="search-btn"><i class='fa fa-search'></i></button>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Company</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Provider</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Company</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Provider</th>
+                        <th>Stock</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr *ngFor="let product of allProducts | searchProduct:searchProduct">
+                        <td>{{allProducts.indexOf(product)+1}}</td>
+                        <td>{{product.company.name}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q .{{product.price}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

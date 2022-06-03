@@ -52,6 +52,7 @@ export class BodyCompaniesComponent implements OnInit
 
   logOut()
   {
-    localStorage.clear(); 
+    localStorage.clear();
+    window.location.replace('/login')
   }
 }
