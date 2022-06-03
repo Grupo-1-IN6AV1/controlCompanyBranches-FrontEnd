@@ -12,6 +12,8 @@ import { TownshipsComponent } from './components/admin/townships/townships.compo
 import { TypeCompanyComponent } from './components/admin/type-company/type-company.component';
 import { ProductsComponent } from './components/admin/products/products.component';
 import { HomeCompanyComponent } from './components/companies/home-company/home-company.component';
+import { ProductsCompanyComponent } from './components/companies/products-company/products-company.component';
+
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -26,6 +28,7 @@ const routes: Routes = [
     children:
     [
       { path: 'home', component: HomeCompanyComponent},
+      { path: 'products', component: ProductsCompanyComponent},
     ]
   },
   //CONTROL DE RUTAS DE ADMIN//

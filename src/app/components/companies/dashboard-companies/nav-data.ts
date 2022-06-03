@@ -1,7 +1,13 @@
 export const navbarData = [
     {
-        routeLink: 'home',
+        routeLink: '/companies/home',
         icon: 'fas fa-home',
         label: 'Home'
+    },
+    {
+        routeLink: '/companies/products',
+        icon: 'fas fa-shopping-bag',
+        label: 'Products'
     }
+
 ];
