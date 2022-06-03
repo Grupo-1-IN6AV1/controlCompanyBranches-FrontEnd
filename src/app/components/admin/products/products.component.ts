@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductModel } from 'src/app/models/product.model';
+import { CompanyAdminRestService } from 'src/app/services/companyAdminRest/company-admin-rest.service';
 import { ProductRestService } from 'src/app/services/productRest/product-rest.service';
+import { CargarScriptsService } from 'src/app/cargar-scripts.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,21 +18,33 @@ export class ProductsComponent implements OnInit {
   searchProduct: any;
   productUpdate: any;
   productView:any;
+  companies : any;
 
 
   constructor(
-    private productRest: ProductRestService
+    private productRest: ProductRestService,
+    private companyRest: CompanyAdminRestService,
+    private _CargarScripts:CargarScriptsService,
   ) {
-    this.product = new ProductModel('', '', '', 0, '', 0)
+    this.product = new ProductModel('', '', '', 0, '', 0, '')
   }
 
   ngOnInit(): void {
     this.getProducts();
+    this.getCompanies();
   }
 
   getProducts() {
     this.productRest.getProduct().subscribe({
       next: (res: any) => this.allProducts = res.products,
+      error: (err) => console.log(err)
+    })
+  }
+
+  getCompanies() 
+  {
+    this.companyRest.getCompanies().subscribe({
+      next: (res: any) => this.companies = res.getCompany,
       error: (err) => console.log(err)
     })
   }
@@ -46,7 +60,7 @@ export class ProductsComponent implements OnInit {
   }
 
   saveProduct(addProductForm:any) {
-    this.productRest.saveProduct(this.product).subscribe
+    this.productRest.saveProductIsAdmin(this.product).subscribe
       ({
         next: (res: any) => {
           Swal.fire
@@ -80,7 +94,7 @@ export class ProductsComponent implements OnInit {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        this.productRest.deleteProduct(id).subscribe({
+        this.productRest.deleteProductIsAdmin(id).subscribe({
           next: (res: any) => {
             Swal.fire({
               title: res.message + ' ' + res.productDeleted.name,
@@ -108,7 +122,7 @@ export class ProductsComponent implements OnInit {
 
   updateProduct()
   {
-    this.productRest.updateProduct(this.productUpdate._id, this.productUpdate).subscribe({
+    this.productRest.updateProductIsAdmin(this.productUpdate._id, this.productUpdate).subscribe({
       next: (res:any)=> 
       {
         Swal.fire({

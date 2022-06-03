@@ -42,7 +42,7 @@
             <div *ngFor="let product of allProducts | searchProduct:searchProduct" class="product" data-name="p-1">
                 <h5 class="card-title">{{product.name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"> {{product.company.name}} </h6>
-                <h6 class="card-subtitle mb-2 text-muted"> Q.{{product.price}} </h6>
+                <p name="category" class="card-text">Q.{{product.price}}</p>
                 <button (click)="getProduct(product._id)" class="btn btn-success m-3" data-bs-toggle="modal"
                     data-bs-target="#updateProduct" class="btn btn-warning m-2" aria-controls="offcanvasExample">
                     <i class="fa fa-pencil" aria-hidden="true">
@@ -95,6 +95,13 @@
                         <input [(ngModel)]="product.stock" min="0" name="stock" type="number" class="form-control"
                             id="nameTeam">
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Company</label>
+                        <select [(ngModel)]="product.company" name="user" class="form-select" aria-label="Default select example">
+                          <option disabled value="" selected>Choose a Company</option>
+                          <option *ngFor="let company of companies" value="{{ company._id }}">{{company.name}}</option>
+                        </select>
+                      </div>
                 </form>
             </div>
             <div class=" modal-footer justify-content-center">
@@ -203,8 +210,16 @@
                 </div>
   
                 <div class="box">
-                  <p>{{productView.stock}}</p>
+                  <p>{{productView.stock}} unidades</p>
                 </div>
+
+                <div class="box">
+                    <h3>Company:</h3>
+                  </div>
+
+                <div class="box">
+                    <p>{{productView.company.name}}</p>
+                  </div>
 
               </div>
             </div>
