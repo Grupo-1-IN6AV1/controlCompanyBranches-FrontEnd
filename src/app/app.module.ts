@@ -28,6 +28,11 @@ import { ProductsComponent } from './components/admin/products/products.componen
 import { SearchProductPipe } from './pipes/productPipe/search-product.pipe';
 import { HomeCompanyComponent } from './components/companies/home-company/home-company.component';
 import { ProductsCompanyComponent } from './components/companies/products-company/products-company.component';
+import { BranchesCompanyComponent } from './components/companies/branches-company/branches-company.component';
+import { SearchBranchPipe } from './pipes/branchPipe/search-branch.pipe';
+import { ProfileCompanyComponent } from './components/companies/profile-company/profile-company.component';
+import { PruebaComponent } from './components/prueba/prueba.component';
+import { NgChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,14 +56,19 @@ import { ProductsCompanyComponent } from './components/companies/products-compan
     ProductsComponent,
     SearchProductPipe,
     HomeCompanyComponent,
-    ProductsCompanyComponent
+    ProductsCompanyComponent,
+    BranchesCompanyComponent,
+    SearchBranchPipe,
+    ProfileCompanyComponent,
+    PruebaComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

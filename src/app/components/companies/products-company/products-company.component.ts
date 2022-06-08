@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductModel } from 'src/app/models/product.model';
 import { ProductRestService } from 'src/app/services/productRest/product-rest.service';
 import { CompanyRestService } from 'src/app/services/companyRest/company-rest.service';
@@ -18,15 +18,24 @@ export class ProductsCompanyComponent implements OnInit {
   product: ProductModel;
   searchProduct: any;
   productUpdate: any;
-  productView:any;
+  productView: any;
   productProvider: any;
   searchProductProvider: any;
+  filterSearch: any
+  filter:string = '';
+  productsStockElder: any
+  productsStockMinor: any
+  reset: any;
   companyName: any;
   showTableProducts: boolean = false;
 
+  //SETEO DE QUETZALES//
+  newPrices: any;
+  newPrice : any;
+
   constructor(
     private productRest: ProductRestService,
-    private company : CompanyRestService,
+    private company: CompanyRestService,
     private companyRest: CompanyAdminRestService,
     private _CargarScripts: CargarScriptsService,
   ) {
@@ -37,38 +46,68 @@ export class ProductsCompanyComponent implements OnInit {
   ngOnInit(): void {
     this.getProducts();
     this.userLogin();
+    this.getFilter('');
   }
 
   getProducts() {
     this.productRest.getProductCompany().subscribe({
-      next: (res: any) => this.allProducts = res.products,
+      next: (res: any) => 
+      {this.allProducts = res.products
+        let allProducts = this.allProducts
+        var arrayPrices = [];
+        for(var key=0; key<allProducts.length; key++)
+        {
+            var actualPrice = allProducts[key].price;
+            var stringPrices = actualPrice.toString();
+            var checkPrice = stringPrices.includes(".")
+            if(checkPrice == true)
+            {
+              arrayPrices.push(stringPrices);
+            }
+            else if (checkPrice == false)
+            {
+              var newPrice = stringPrices+'.00'
+              arrayPrices.push(newPrice);
+            }    
+        }
+        this.newPrices = arrayPrices;
+      },
       error: (err) => console.log(err)
     })
   }
 
-  getProduct(id: string){
+  getProduct(id: string) {
     this.productRest.getExactProduct(id).subscribe({
       next: (res: any) => {
         this.productView = res.products;
         this.productUpdate = res.products;
+        var actualPrice = res.products.price;
+        var stringPrice = actualPrice.toString();
+        var checkPrice = stringPrice.includes(".")
+        if(checkPrice == true)
+        {
+          this.newPrice = stringPrice
+        }
+        else if (checkPrice == false)
+        {
+          this.newPrice = stringPrice+'.00'
+        } 
       },
-      error: (err) => {alert(err.error.message)}
+      error: (err) => { alert(err.error.message) }
     })
   }
 
-  getProductProvider(providerName: string)
-  {
-    let data = {providerName: providerName}
-    console.log(data);
+  getProductProvider(providerName: string) {
+    let data = { providerName: providerName }
     this.productRest.getProductProvider(data).subscribe({
       next: (res: any) => {
         this.searchProductProvider = res.product;
       },
-      error: (err) => {alert(err.error.message)}
+      error: (err) => { alert(err.error.message) }
     })
   }
 
-  saveProduct(addProductForm:any) {
+  saveProduct(addProductForm: any) {
     this.productRest.saveProduct(this.product).subscribe
       ({
         next: (res: any) => {
@@ -92,8 +131,7 @@ export class ProductsCompanyComponent implements OnInit {
       })
   }
 
-  deleteProduct(id: string) 
-  {
+  deleteProduct(id: string) {
     Swal.fire({
       title: 'Do you want to delete this Product?',
       showDenyButton: true,
@@ -122,27 +160,23 @@ export class ProductsCompanyComponent implements OnInit {
           })
         })
         this.getProducts();
-      } else if (result.isDenied) 
-      {
-        Swal.fire('Product Not Deleted','', 'info')
+      } else if (result.isDenied) {
+        Swal.fire('Product Not Deleted', '', 'info')
       }
     })
   }
 
-  updateProduct()
-  {
+  updateProduct() {
     this.productRest.updateProduct(this.productUpdate._id, this.productUpdate).subscribe({
-      next: (res:any)=> 
-      {
+      next: (res: any) => {
         Swal.fire({
-          icon:'success',
+          icon: 'success',
           title: res.message,
           confirmButtonColor: '#28B463'
         });
         this.getProducts();
       },
-      error: (err)=>
-      {
+      error: (err) => {
         Swal.fire({
           icon: 'error',
           title: err.error.message || err.error,
@@ -152,19 +186,90 @@ export class ProductsCompanyComponent implements OnInit {
     })
   }
 
-  userLogin()
-  {
+  userLogin() {
     this.companyRest.getCompany(this.company.getIdentity()._id).subscribe({
       next: (res: any) => {
         this.companyName = res.getCompany.name;
       },
-      error: (err) => {alert(err.error.message)}
+      error: (err) => { alert(err.error.message) }
     })
   }
 
-  showTable()
+  showTable() {
+    this.showTableProducts = !this.showTableProducts;
+  }
+
+  getFilter(filter: any) {
+    this.filterSearch = filter;
+    this.filter = filter;
+  }
+
+  getProductsStockElder() {
+    this.productRest.getProductsStockElder().subscribe({
+      next: (res: any) => {
+        this.productsStockElder = res.products,
+        this.productsStockMinor = this.reset,
+        this.allProducts = res.products
+        let allProducts = this.allProducts
+        var arrayPrices = [];
+        for(var key=0; key<allProducts.length; key++)
+        {
+            var actualPrice = allProducts[key].price;
+            var stringPrices = actualPrice.toString();
+            var checkPrice = stringPrices.includes(".")
+            if(checkPrice == true)
+            {
+              arrayPrices.push(stringPrices);
+            }
+            else if (checkPrice == false)
+            {
+              var newPrice = stringPrices+'.00'
+              arrayPrices.push(newPrice);
+            }    
+        }
+        this.newPrices = arrayPrices;
+      },
+      error: (err) => console.log(err)
+    })
+  }
+
+  getProductsStockMinor() {
+    this.productRest.getProductsStockMinor().subscribe({
+      next: (res: any) => {
+        this.productsStockMinor = res.products,
+        this.productsStockElder = this.reset,
+        this.allProducts = res.products
+        let allProducts = this.allProducts
+        var arrayPrices = [];
+        for(var key=0; key<allProducts.length; key++)
+        {
+            var actualPrice = allProducts[key].price;
+            var stringPrices = actualPrice.toString();
+            var checkPrice = stringPrices.includes(".")
+            if(checkPrice == true)
+            {
+              arrayPrices.push(stringPrices);
+            }
+            else if (checkPrice == false)
+            {
+              var newPrice = stringPrices+'.00'
+              arrayPrices.push(newPrice);
+            }    
+        }
+        this.newPrices = arrayPrices;
+      },
+      error: (err) => console.log(err)
+    })
+  }
+
+  cleanTable()
   {
-    this.showTableProducts =! this.showTableProducts;
+    this.productsStockElder = this.reset;
+    this.productsStockMinor = this.reset;
+    this.filterSearch = this.reset;
+    this.getProducts();
+    this.filter='Search...'
+    this.searchProduct = this.reset;
   }
 
 }

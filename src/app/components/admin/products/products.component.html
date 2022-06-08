@@ -51,7 +51,7 @@
 <div *ngIf="!showTableProducts">
     <div class="container">
         <div class="products-container">
-            <div *ngFor="let product of allProducts | searchProduct:searchProduct" class="product" data-name="p-1">
+            <div *ngFor="let product of allProducts" class="product" data-name="p-1">
                 <h5 class="card-title">{{product.name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"> {{product.company.name}} </h6>
                 <p name="category" class="card-text">Q.{{product.price}}</p>
@@ -72,7 +72,7 @@
     </div>
 </div>
 
-<!--MODAL ADD TYPE COMPANY-->
+<!--MODAL ADD PRODUCT-->
 <div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -281,7 +281,7 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    <tr *ngFor="let product of allProducts | searchProduct:searchProduct">
+                    <tr *ngFor="let product of allProducts">
                         <td>{{allProducts.indexOf(product)+1}}</td>
                         <td>{{product.company.name}}</td>
                         <td>{{product.name}}</td>

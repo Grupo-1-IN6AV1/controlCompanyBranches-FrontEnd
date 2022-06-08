@@ -26,7 +26,7 @@
   </button>
   <button routerLink="/admin/home" class="btn btn-primary btn-icon-split">
     <span class="icon">
-        <i class="fas fa-home"></i>
+      <i class="fas fa-home"></i>
     </span>
     <span class="text">Back Home</span>
   </button>
@@ -201,24 +201,23 @@
           </div>
           <div class="mb-3">
             <label for="surnameUpdate" class="form-label">Username</label>
-            <input [(ngModel)]="companyUpdate.username" name="username" type="text" class="form-control" id="surnameUpdate">
+            <input [(ngModel)]="companyUpdate.username" name="username" type="text" class="form-control"
+              id="surnameUpdate">
           </div>
           <div class="mb-3">
             <label for="usernameUpdate" class="form-label">Email</label>
-            <input [(ngModel)]="companyUpdate.email" name="email" type="text" class="form-control"
-              id="usernameUpdate">
+            <input [(ngModel)]="companyUpdate.email" name="email" type="text" class="form-control" id="usernameUpdate">
           </div>
           <div class="mb-3">
             <label for="usernameUpdate" class="form-label">Phone</label>
-            <input [(ngModel)]="companyUpdate.phone" name="phone" type="text" class="form-control"
-              id="usernameUpdate">
+            <input [(ngModel)]="companyUpdate.phone" name="phone" type="text" class="form-control" id="usernameUpdate">
           </div>
           <div class="mb-3">
             <label class="form-label">Type Company</label>
-            <select [(ngModel)]="companyUpdate.typeCompany" name="typeCompany" class="form-select"
+            <select [(ngModel)]="companyUpdate.typeCompany._id" name="typeCompany" class="form-select"
               aria-label="Default select example">
-              <option disabled value="{{companyUpdate.typeCompany}}" selected>{{companyUpdate.typeCompany.name}}</option>
-              <option *ngFor="let typeCompany of typeCompanies" value="{{ typeCompany._id }}">{{typeCompany.name}}
+              <option *ngFor="let typeCompany of typeCompanies" value="{{ typeCompany._id }}">
+                {{typeCompany.name}}
               </option>
             </select>
           </div>

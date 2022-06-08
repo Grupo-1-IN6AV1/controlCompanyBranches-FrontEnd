@@ -1,0 +1,51 @@
+<section class="seccion-perfil-usuario">
+    <div class="perfil-usuario-header">
+        <div class="perfil-usuario-portada">
+            <div class="perfil-usuario-avatar">
+                <i class="icon fa fa-user-circle fa-7x" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="wrapper">
+    <div class="title">
+        <i class="fa fa-user-circle" aria-hidden="true">
+        </i> Your Information
+    </div>
+    <form (ngSubmit)="updateCompany()" *ngIf="companyLogin" autocomplete="off" class="form">
+        <div class="inputfield">
+            <label>Name</label>
+            <input [(ngModel)]="companyLogin.name" name="name" autocomplete="off" type="text" class="input">
+        </div>
+        <div class="inputfield">
+            <label>Username</label>
+            <input [(ngModel)]="companyLogin.username" name="username" autocomplete="off" type="text" class="input">
+        </div>
+        <div class="inputfield">
+            <label>Email</label>
+            <input [(ngModel)]="companyLogin.email" name="email" autocomplete="off" type="text" class="input">
+        </div>
+        <div class="inputfield">
+            <label>Phone</label>
+            <input [(ngModel)]="companyLogin.phone" name="phone" autocomplete="off" type="text" class="input">
+        </div>
+        <div class="inputfield">
+            <label>Type Company</label>
+            <select [(ngModel)]="companyLogin.typeCompany._id" name="typeCompany" class="form-select"
+                aria-label="Default select example">
+                <option *ngFor="let typeCompany of typeCompanies" value="{{ typeCompany._id }}">
+                    {{typeCompany.name}}
+                </option>
+            </select>
+        </div>
+        <div class="mt-5 modal-footer justify-content-center">
+            <button (click)="deleteAccount()" type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                <i class="fa fa-trash-alt" aria-hidden="true"></i> Delete Account
+            </button>
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">
+                <i class="fa fa-refresh" aria-hidden="true"></i> Update Account
+            </button>
+        </div>
+    </form>
+</div>
