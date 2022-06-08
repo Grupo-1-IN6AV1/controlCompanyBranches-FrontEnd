@@ -49,4 +49,15 @@ export class CompanyAdminRestService
     return this.http.put(environment.baseUrl + 'company/updateIsAdmin/' + id , params, {headers: this.httpOptions})
   }
 
+  //FUNCIONES DE PROFILE//
+  updateAccount(id: string, params:{})
+  {
+    return this.http.put(environment.baseUrl + 'company/update/' + id , params, {headers: this.httpOptions})
+  }
+
+  deleteAccount(id: string)
+  {
+    return this.http.delete(environment.baseUrl + 'company/delete/' + id , {headers: this.httpOptions})
+  }
+
 }

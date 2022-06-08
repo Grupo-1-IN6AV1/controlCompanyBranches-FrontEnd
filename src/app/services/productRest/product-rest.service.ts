@@ -31,6 +31,16 @@ export class ProductRestService {
     return this.http.post(environment.baseUrl + 'companyProduct/getProductProvider', params ,{headers: this.httpOptions});
   }
 
+  getProductsStockElder()
+  {
+    return this.http.get(environment.baseUrl + 'companyProduct/getProductStockElder', {headers: this.httpOptions});
+  }
+
+  getProductsStockMinor()
+  {
+    return this.http.get(environment.baseUrl + 'companyProduct/getProductStockMinor', {headers: this.httpOptions});
+  }
+
   //ADMIN//
   saveProductIsAdmin(params:{}){
     return this.http.post(environment.baseUrl + 'companyProduct/saveProductIsAdmin', params ,{headers: this.httpOptions});
