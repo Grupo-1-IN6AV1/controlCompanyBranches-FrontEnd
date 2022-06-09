@@ -33,6 +33,9 @@ import { SearchBranchPipe } from './pipes/branchPipe/search-branch.pipe';
 import { ProfileCompanyComponent } from './components/companies/profile-company/profile-company.component';
 import { PruebaComponent } from './components/prueba/prueba.component';
 import { NgChartsModule } from 'ng2-charts';
+import { BranchesAdminComponent } from './components/admin/branches-admin/branches-admin.component';
+import { SearchBrachAdminPipe } from './pipes/branchAdmin/search-branch-admin.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +63,9 @@ import { NgChartsModule } from 'ng2-charts';
     BranchesCompanyComponent,
     SearchBranchPipe,
     ProfileCompanyComponent,
-    PruebaComponent
+    PruebaComponent,
+    BranchesAdminComponent,
+    SearchBrachAdminPipe
   ],
   imports: [
     BrowserModule,

@@ -25,9 +25,9 @@ export const navbarData = [
         label: 'Products'
     },
     {
-        routeLink: 'media',
-        icon: 'fas fa-camera',
-        label: 'Media'
+        routeLink: 'branches',
+        icon: 'fas fa-sitemap',
+        label: 'Branches'
     },
     {
         routeLink: 'settings',
