@@ -28,6 +28,7 @@ export class ProductsCompanyComponent implements OnInit {
   reset: any;
   companyName: any;
   showTableProducts: boolean = false;
+  getProductsOrderByUpVariable: any;
 
   //SETEO DE QUETZALES//
   newPrices: any;
@@ -270,6 +271,19 @@ export class ProductsCompanyComponent implements OnInit {
     this.getProducts();
     this.filter='Search...'
     this.searchProduct = this.reset;
+  }
+
+  getProductsOdernByUp(){
+    this.productRest.getProductsOdernByUp().subscribe({
+      next: (res:any)=>{
+        this.getProductsOrderByUpVariable=res.products
+        this.allProducts = res.products
+        this.productsStockElder=this.reset
+        this.productsStockMinor=this.reset
+      },
+      
+      error: (err) => console.log(err)
+    })
   }
 
 }

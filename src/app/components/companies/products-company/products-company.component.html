@@ -259,7 +259,12 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
+                        <th (click)="getProductsOdernByUp();"
+                        >Name
+                            <i class="fa fa-sort-alpha-desc arrowsTable" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-asc ms-3" aria-hidden="true"></i>
+                            
+                        </th>
                         <th>Description</th>
                         <th>Price</th>
                         <th>Provider</th>
@@ -303,6 +308,16 @@
                 <tbody *ngIf="productsStockMinor">
                     <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
                         <td>{{productsStockMinor.indexOf(product)+1}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="getProductsOrderByUpVariable">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
+                        <td>{{getProductsOrderByUpVariable.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
                         <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
