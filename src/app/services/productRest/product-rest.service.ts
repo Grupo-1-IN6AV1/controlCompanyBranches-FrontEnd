@@ -77,4 +77,8 @@ export class ProductRestService {
     return this.http.put(environment.baseUrl + 'companyProduct/updateProduct/' + id, params,{headers: this.httpOptions});
   }
 
+  getProductsOdernByUp(){
+    return this.http.get(environment.baseUrl+'/getProductsOdernByUp',{headers:this.httpOptions});
+  }
+
 }
