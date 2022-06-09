@@ -1,0 +1,227 @@
+<!--TÍTULO DEL COMPONENTE-->
+<div class="head-title">
+    <div class="left">
+        <h1>
+            &nbsp;<i class="fa fa-building" aria-hidden="true"></i> Branches
+        </h1>
+        <hr>
+    </div>
+</div>
+
+<!-- DESPLIEGA LA BÚSQUEDA -->
+<div class="form-input mt-5">
+    <input [(ngModel)]="searchBrachAdmin" placeholder="Search...">
+    <button type="submit" class="search-btn"><i class='fa fa-search'></i></button>
+</div>
+<br>
+
+
+<!--BOTONES DE ACCESO RÁPIDO-->
+<div class="text-center mt-2 mb-2">
+    <button class="btn btn-success btn-icon-split" data-bs-toggle="modal" data-bs-target="#addBranch">
+        <span class="icon">
+            <i class="fa fa-building" aria-hidden="true"></i>
+        </span>
+        <span class="text">Add Branch into a Company</span>
+    </button>
+    <button routerLink="/admin/home" class="btn btn-primary btn-icon-split">
+        <span class="icon">
+            <i class="fas fa-home"></i>
+        </span>
+        <span class="text">Back Home</span>
+    </button>
+</div>
+<hr>
+
+<!--CARDS DE BRANCHS-->
+<div>
+    <div class="container">
+        <div class="products-container">
+            <div *ngFor="let branchIsAdmin of branchesIsAdmin | searchBranch:searchBrachAdmin" class="product" data-name="p-1">
+                <h5 class="card-title">{{ branchIsAdmin.name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"> {{branchIsAdmin.company.name}} </h6>
+                <p class="card-text"> {{branchIsAdmin.township.name}} </p>
+
+
+                <button (click)="getBranchIsAdmin(branchIsAdmin._id)" class="btn btn-success m-3" data-bs-toggle="modal"
+                    data-bs-target="#updateBranch" class="btn btn-warning m-2" aria-controls="offcanvasExample">
+                    <i class="fa fa-pencil" aria-hidden="true">
+                    </i> Update
+                </button>
+                <button (click)="deleteBranchIsAdmin(branchIsAdmin._id)" class="btn btn-danger"> <i class="fa fa-trash"
+                        aria-hidden="true"></i>
+                    Delete</button>
+                <button (click)="getBranchIsAdmin(branchIsAdmin._id)"class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#viewBranchIsAdmin" class=" btn btn-secondary ms-2"> <i class="fa fa-eye"
+                        aria-hidden="true"></i>
+                    View</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--View Modal Branch is Admin-->
+<div>
+    <div class="modal fade" id="viewBranchIsAdmin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div *ngIf="branchViewIsAdmin" class="modal-body">
+                    <div class="descripcion">
+                        <div class="count-container">
+
+                            <div class="box">
+                                <h3>Name:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchViewIsAdmin.name}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Company:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchViewIsAdmin.company.name}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>TownShip:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchViewIsAdmin.township.name}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Addres:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchViewIsAdmin.address}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Phone:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchViewIsAdmin.phone}}</p>
+                            </div>
+
+
+                            <div class="box">
+                                <h3>Quantity Products:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchViewIsAdmin.products.length}} products</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--MODAL ADD BRANCH-->
+<div class="modal fade" id="addBranch" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-sitemap" aria-hidden="true"></i>
+                    &nbsp; Add Branch:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="saveBranchIsAdmin(addBranchForm)" #addBranchForm="ngForm">
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Name</label>
+                        <input [(ngModel)]="branchIsAdmin.name" name="name" type="text" class="form-control" id="nameBranch">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Address</label>
+                        <input [(ngModel)]="branchIsAdmin.address" name="address" type="text" class="form-control"
+                            id="branchAddress">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Phone</label>
+                        <input [(ngModel)]="branchIsAdmin.phone" name="phone" type="text" class="form-control"
+                            id="branchPhone">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Company</label>
+                        <select [(ngModel)]="branchIsAdmin.company" name="company" class="form-select"
+                            aria-label="Default select example">
+                            <option disabled value="" selected>Choose a Company</option>
+                            <option *ngFor="let company of companies" value="{{ company._id }}">{{company.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Township</label>
+                        <select [(ngModel)]="branchIsAdmin.township" name="township" class="form-select"
+                            aria-label="Default select example">
+                            <option disabled value="" selected>Choose a Tonwship</option>
+                            <option *ngFor="let township of townships" value="{{ township._id }}">{{township.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>Discard Save</button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i> Save Branch
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL UPDATE BRANCH-->
+<div class="modal fade" id="updateBranch" tabindex="-1" aria-labelledby="updateBranch" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-pencil" aria-hidden="true"></i>
+                    Update Branch</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="updateBranch()" *ngIf="branchUpdate">
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Name</label>
+                        <input [(ngModel)]="branchUpdate.name" name="name" type="text" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Address</label>
+                        <input [(ngModel)]="branchUpdate.address" name="address" type="text" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <select [(ngModel)]="branchUpdate.township._id" name="township" class="form-select"
+                        aria-label="Default select example">
+                        <option *ngFor="let township of townships" value="{{ township._id }}">
+                            {{township.name}}
+                        </option>
+                    </select>
+                    
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Update</button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i> Update Branch
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

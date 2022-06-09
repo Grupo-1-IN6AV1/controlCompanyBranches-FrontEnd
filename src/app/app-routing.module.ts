@@ -16,6 +16,7 @@ import { ProductsCompanyComponent } from './components/companies/products-compan
 import { BranchesCompanyComponent } from './components/companies/branches-company/branches-company.component';
 import { ProfileCompanyComponent } from './components/companies/profile-company/profile-company.component';
 import { PruebaComponent } from './components/prueba/prueba.component';
+import { BranchesAdminComponent } from './components/admin/branches-admin/branches-admin.component';
 
 
 const routes: Routes = [
@@ -47,6 +48,7 @@ const routes: Routes = [
       { path: 'townships', component: TownshipsComponent},
       { path: 'typeCompany', component: TypeCompanyComponent},
       { path: 'products', component: ProductsComponent},
+      { path: 'branches', component: BranchesAdminComponent}
     ]
   },
 
