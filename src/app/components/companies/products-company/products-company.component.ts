@@ -351,5 +351,4 @@ export class ProductsCompanyComponent implements OnInit {
       },
     })
   }
-
 }

@@ -91,7 +91,7 @@ export class PruebaComponent implements OnInit, OnDestroy {
           plugins: {
               title: {
                   display: true,
-                  text: 'Juarez traga semen de vergas de negros'
+                  text: 'ejemplo'
               }
           }
       }
@@ -133,7 +133,7 @@ export class PruebaComponent implements OnInit, OnDestroy {
           plugins: {
               title: {
                   display: true,
-                  text: 'Juarez traga semen de vergas de negros'
+                  text: 'ejemplo'
               }
           }
       }
@@ -169,7 +169,7 @@ export class PruebaComponent implements OnInit, OnDestroy {
             labels: labels,
             datasets: 
             [{
-                label: 'Juarez Traga semen de Sduard y lame culo de Rodrigo.',
+                label: 'ejemplo',
                 data: data,
             }]
         }
