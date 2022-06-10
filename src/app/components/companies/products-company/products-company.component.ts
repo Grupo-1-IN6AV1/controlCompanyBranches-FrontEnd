@@ -5,6 +5,7 @@ import { CompanyRestService } from 'src/app/services/companyRest/company-rest.se
 import { CargarScriptsService } from 'src/app/cargar-scripts.service';
 import Swal from 'sweetalert2';
 import { CompanyAdminRestService } from 'src/app/services/companyAdminRest/company-admin-rest.service';
+import { BranchesRestService } from 'src/app/services/branchesRest/branches-rest.service';
 
 @Component({
   selector: 'app-products-company',
@@ -19,6 +20,7 @@ export class ProductsCompanyComponent implements OnInit {
   searchProduct: any;
   productUpdate: any;
   productView: any;
+  sendProduct: any;
   productProvider: any;
   searchProductProvider: any;
   filterSearch: any
@@ -28,7 +30,12 @@ export class ProductsCompanyComponent implements OnInit {
   reset: any;
   companyName: any;
   showTableProducts: boolean = false;
-  getProductsOrderByUpVariable: any;
+  productNameUp: any;
+  branches: any;
+
+  //ENVIAR PRODUCTOS A SUCURSAL//
+  productBranch: any;
+  productQuantity: any
 
   //SETEO DE QUETZALES//
   newPrices: any;
@@ -39,7 +46,9 @@ export class ProductsCompanyComponent implements OnInit {
     private company: CompanyRestService,
     private companyRest: CompanyAdminRestService,
     private _CargarScripts: CargarScriptsService,
-  ) {
+    private branchRest: BranchesRestService
+  )
+  {
     this.product = new ProductModel('', '', '', 0, '', 0, ''),
     _CargarScripts.Carga(["datatable"]);
   }
@@ -48,6 +57,7 @@ export class ProductsCompanyComponent implements OnInit {
     this.getProducts();
     this.userLogin();
     this.getFilter('');
+    this.getBranch();
   }
 
   getProducts() {
@@ -82,6 +92,7 @@ export class ProductsCompanyComponent implements OnInit {
       next: (res: any) => {
         this.productView = res.products;
         this.productUpdate = res.products;
+        this.sendProduct = res.products;
         var actualPrice = res.products.price;
         var stringPrice = actualPrice.toString();
         var checkPrice = stringPrice.includes(".")
@@ -210,6 +221,7 @@ export class ProductsCompanyComponent implements OnInit {
       next: (res: any) => {
         this.productsStockElder = res.products,
         this.productsStockMinor = this.reset,
+        this.productNameUp = this.reset;
         this.allProducts = res.products
         let allProducts = this.allProducts
         var arrayPrices = [];
@@ -239,6 +251,7 @@ export class ProductsCompanyComponent implements OnInit {
       next: (res: any) => {
         this.productsStockMinor = res.products,
         this.productsStockElder = this.reset,
+        this.productNameUp = this.reset;
         this.allProducts = res.products
         let allProducts = this.allProducts
         var arrayPrices = [];
@@ -273,16 +286,69 @@ export class ProductsCompanyComponent implements OnInit {
     this.searchProduct = this.reset;
   }
 
-  getProductsOdernByUp(){
-    this.productRest.getProductsOdernByUp().subscribe({
-      next: (res:any)=>{
-        this.getProductsOrderByUpVariable=res.products
+  getProductsOderByUp(){
+    this.productRest.getProductsOderByUp().subscribe({
+      next: (res:any)=>
+      {
+        this.productsStockElder = this.reset
+        this.productsStockMinor = this.reset
+        this.productNameUp = res.products
         this.allProducts = res.products
-        this.productsStockElder=this.reset
-        this.productsStockMinor=this.reset
+        let allProducts = this.allProducts
+        var arrayPrices = [];
+        for(var key=0; key<allProducts.length; key++)
+        {
+            var actualPrice = allProducts[key].price;
+            var stringPrices = actualPrice.toString();
+            var checkPrice = stringPrices.includes(".")
+            if(checkPrice == true)
+            {
+              arrayPrices.push(stringPrices);
+            }
+            else if (checkPrice == false)
+            {
+              var newPrice = stringPrices+'.00'
+              arrayPrices.push(newPrice);
+            }    
+        }
+        this.newPrices = arrayPrices;
       },
-      
       error: (err) => console.log(err)
+    })
+  }
+
+  getBranch()
+  {
+    this.branchRest.getBranches().subscribe({
+      next: (res: any) => 
+      {this.branches = res.getBranches},
+      error: (err) => console.log(err)
+    })
+  }
+
+  sendProductBranch(addProductBranchForm: any)
+  {
+    let cantidad = this.productQuantity;
+    let product = this.sendProduct._id
+    let params = {cantidad: cantidad, product:product};
+    this.productRest.addProductBranch(this.productBranch, params).subscribe({
+      next: (res: any) => {
+        Swal.fire({
+          icon: 'success',
+          title: res.message,
+          confirmButtonColor: '#28B463'
+        });
+        addProductBranchForm.reset();
+        this.getProducts();
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: err.error.message || err.error,
+          confirmButtonColor: '#E74C3C'
+        });
+        addProductBranchForm.reset();
+      },
     })
   }
 

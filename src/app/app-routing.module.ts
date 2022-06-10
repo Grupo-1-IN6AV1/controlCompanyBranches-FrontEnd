@@ -17,6 +17,7 @@ import { BranchesCompanyComponent } from './components/companies/branches-compan
 import { ProfileCompanyComponent } from './components/companies/profile-company/profile-company.component';
 import { PruebaComponent } from './components/prueba/prueba.component';
 import { BranchesAdminComponent } from './components/admin/branches-admin/branches-admin.component';
+import { SalesProductsCompanyComponent } from './components/companies/sales-products-company/sales-products-company.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
       { path: 'products', component: ProductsCompanyComponent},
       { path: 'branches', component: BranchesCompanyComponent},
       { path: 'profile', component: ProfileCompanyComponent},
+      { path: 'salesProducts', component: SalesProductsCompanyComponent},
     ]
   },
   //CONTROL DE RUTAS DE ADMIN//

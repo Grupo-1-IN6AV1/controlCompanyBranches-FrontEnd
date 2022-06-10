@@ -9,13 +9,20 @@ export class SearchProductPipe implements PipeTransform {
   { 
     console.log(search)
     //Todos los Productos//
-    if(search.searchProduct == undefined && search.filterSearch==''){
+    if(search.searchProduct == undefined && search.filterSearch =='')
+    {
       return allproducts;
     }
-    else if(search.searchProduct == undefined && search.filterSearch==undefined){
+    //Borrar Búsqueda//
+    else if(search.searchProduct == '' && search.filterSearch == '')
+    {
       return allproducts;
     }
-    else if(search.searchProduct != undefined && search.filterSearch==undefined){
+    else if(search.searchProduct == undefined && search.filterSearch == undefined)
+    {
+      return allproducts;
+    }
+    else if(search.searchProduct && search.filterSearch == ''){
       return allproducts.filter( (product:any) => {
         return product.name.toLowerCase().includes(search.searchProduct.toLowerCase());
       })
@@ -37,7 +44,6 @@ export class SearchProductPipe implements PipeTransform {
         return product.providerName.toLowerCase().includes(search.searchProduct.toLowerCase());
       })
      }
-    //Productos de Mayor a Menor
   }
 
 }

@@ -46,4 +46,9 @@ export class BranchesRestService {
     return this.http.put(environment.baseUrl + 'branch/updateBranch/'+id, params, {headers: this.httpOptions});
   }
 
+  getProducts(id:string)
+  {
+    return this.http.get(environment.baseUrl + 'branch/getProductsBranch/' + id, {headers: this.httpOptions});
+  }
+
 }
