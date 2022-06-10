@@ -82,7 +82,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form #addProductForm="ngForm">
+                <form (ngSubmit)="saveProduct(addProductForm)" #addProductForm="ngForm">
                     <div class="mb-3">
                         <label for="nameTeam" class="form-label">Name</label>
                         <input [(ngModel)]="product.name" name="name" type="text" class="form-control" id="nameTeam">
@@ -121,7 +121,7 @@
             <div class=" modal-footer justify-content-center">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
                     <i class="fa fa-times-circle" aria-hidden="true"></i>Discard Save</button>
-                <button (click)="saveProduct(addProductForm)" type="submit" class="btn btn-success"
+                <button type="submit" class="btn btn-success"
                     data-bs-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Product
                 </button>
             </div>
