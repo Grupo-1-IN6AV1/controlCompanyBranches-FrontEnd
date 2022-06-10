@@ -51,4 +51,23 @@ export class BranchesRestService {
     return this.http.get(environment.baseUrl + 'branch/getProductsBranch/' + id, {headers: this.httpOptions});
   }
 
+  getProduct(id:string, params:{})
+  {
+    return this.http.post(environment.baseUrl + 'branch/getProductBranch/' + id, params,{headers: this.httpOptions});
+  }
+
+  saleProduct(id:string, params:{})
+  {
+    return this.http.put(environment.baseUrl + 'branch/salesProduct/' + id, params,{headers: this.httpOptions});
+  }
+
+  getShoppingCart()
+  {
+    return this.http.get(environment.baseUrl + 'branch/getShoppingCarts', {headers: this.httpOptions});
+  }
+
+  generatePdf(params:{})
+  {
+    return this.http.post(environment.baseUrl + 'bill/createBill', params, {headers: this.httpOptions});
+  }
 }

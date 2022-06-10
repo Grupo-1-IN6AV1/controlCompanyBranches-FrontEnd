@@ -85,7 +85,6 @@ export class BranchesCompanyComponent implements OnInit {
       })
   }
 
-
   updateBranch() {
     this.branchRest.updateBranch(this.branchUpdate._id, this.branchUpdate).subscribe({
       next: (res: any) => {
