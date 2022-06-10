@@ -77,8 +77,24 @@ export class ProductRestService {
     return this.http.put(environment.baseUrl + 'companyProduct/updateProduct/' + id, params,{headers: this.httpOptions});
   }
 
-  getProductsOdernByUp(){
-    return this.http.get(environment.baseUrl+'/getProductsOdernByUp',{headers:this.httpOptions});
+  getProductsOderByUp()
+  {
+    return this.http.get(environment.baseUrl+ 'companyProduct/getProductsOrderByUp', {headers:this.httpOptions});
+  }
+
+  getBranches()
+  {
+    return this.http.get(environment.baseUrl + 'company/getBranches', {headers: this.httpOptions});
+  }
+
+  addProductBranch(id:string, params:{})
+  {
+    return this.http.post(environment.baseUrl + 'branch/addProduct/' +id , params, {headers: this.httpOptions});
+  }
+
+  productGraphic(id:string)
+  {
+    return this.http.get(environment.baseUrl + 'branch/mostSalesProducts/' +id , {headers: this.httpOptions});
   }
 
 }

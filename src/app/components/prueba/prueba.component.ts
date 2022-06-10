@@ -6,6 +6,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { Chart } from 'chart.js';
 import { ThisReceiver } from '@angular/compiler';
 import { getAttrsForDirectiveMatching } from '@angular/compiler/src/render3/view/util';
+import { ProductRestService } from 'src/app/services/productRest/product-rest.service';
 
 @Component({
   selector: 'app-prueba',
@@ -17,83 +18,166 @@ export class PruebaComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
+  constructor(private productRest : ProductRestService)
+  {
+  }
+
   myChart:any=Chart;
   canvas: any;
   ctx: any;
   chart:any
+  productGraphic: any;
 
-  graficLine() 
+  graficBar() 
   {
-      this.canvas = document.getElementById('myChart');
-      this.ctx = this.canvas.getContext('2d');
-      this.chart = new Chart(this.ctx, {
-        type: 'bar',
-        data: {
-            labels: ["New", "In Progress", "On Hold"],
-            datasets: [{
-                label: '# of Votes',
-                data: [1,2,3],
-                backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(255, 159, 64, 0.2)',
-                  'rgba(255, 205, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(201, 203, 207, 0.2)'],
-                borderWidth: 1
-            }]
-        },
-        options: {}
-      });
-    }
+    this.productRest.productGraphic('62a27b89fd07b48b5d095fde').subscribe({
+      next: (res: any) => 
+      {
+        this.productGraphic = res.productsSales;
+        const setDataSets = []
+
+        for (var key=0; key < this.productGraphic.length; key ++)
+        {
+          var data =  this.productGraphic[key];
+          setDataSets.push({label:data.companyProduct.name, data:[data.sales]});
+        }
+
+        this.canvas = document.getElementById('myChart');
+        this.ctx = this.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx,
+        {
+          type: 'bar',
+          data:
+          {
+              labels: ['ejemplo'],
+              datasets: setDataSets,
+          }
+        });
+      },
+      error: (err) => {console.log(err)}
+    })
+  }
   
 
   graficDonut()
   {
-    this.canvas = document.getElementById('myChart');
-      this.ctx = this.canvas.getContext('2d');
-      this.chart = new Chart(this.ctx, {
+
+    this.productRest.productGraphic('62a27b89fd07b48b5d095fde').subscribe({
+      next: (res: any) => 
+      {
+        this.productGraphic = res.productsSales;
+        const labels = []
+        const data = []
+
+        for (var key=0; key < this.productGraphic.length; key ++)
+        {
+          var dataProduct =  this.productGraphic[key];
+          labels.push(dataProduct.companyProduct.name);
+          data.push(dataProduct.sales);
+        }
+        
+        this.canvas = document.getElementById('myChart');
+        this.ctx = this.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx, {
         type: 'doughnut',
         data: {
-            labels: ["New", "In Progress", "On Hold"],
-            datasets: [{
-                label: '# of Votes',
-                data: [1,2,3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)'
-                ],
-                borderWidth: 1
+            labels: labels,
+            datasets: 
+            [{
+                data: data,
             }]
         },
-        options: {}
+        options: {
+          plugins: {
+              title: {
+                  display: true,
+                  text: 'Juarez traga semen de vergas de negros'
+              }
+          }
+      }
       });
+
+      },
+      error: (err) => {console.log(err)}
+    })
   }
 
   graficPie()
   {
-    this.canvas = document.getElementById('myChart');
-      this.ctx = this.canvas.getContext('2d');
-      this.chart = new Chart(this.ctx, {
+    this.productRest.productGraphic('62a27b89fd07b48b5d095fde').subscribe({
+      next: (res: any) => 
+      {
+        this.productGraphic = res.productsSales;
+        const labels = []
+        const data = []
+
+        for (var key=0; key < this.productGraphic.length; key ++)
+        {
+          var dataProduct =  this.productGraphic[key];
+          labels.push(dataProduct.companyProduct.name);
+          data.push(dataProduct.sales);
+        }
+        
+        this.canvas = document.getElementById('myChart');
+        this.ctx = this.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx, {
         type: 'pie',
         data: {
-            labels: ["New", "In Progress", "On Hold"],
-            datasets: [{
-                label: '# of Votes',
-                data: [1,2,3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)'
-                ],
-                borderWidth: 1,
-                hoverOffset: 4
+            labels: labels,
+            datasets: 
+            [{
+                data: data,
             }]
         },
-        options: {}
+        options: {
+          plugins: {
+              title: {
+                  display: true,
+                  text: 'Juarez traga semen de vergas de negros'
+              }
+          }
+      }
       });
+
+      },
+      error: (err) => {console.log(err)}
+    })
+  }
+
+
+  graficLine()
+  {
+    this.productRest.productGraphic('62a27b89fd07b48b5d095fde').subscribe({
+      next: (res: any) => 
+      {
+        this.productGraphic = res.productsSales;
+        const labels = []
+        const data = []
+
+        for (var key=0; key < this.productGraphic.length; key ++)
+        {
+          var dataProduct =  this.productGraphic[key];
+          labels.push(dataProduct.companyProduct.name);
+          data.push(dataProduct.sales);
+        }
+        
+        this.canvas = document.getElementById('myChart');
+        this.ctx = this.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: 
+            [{
+                label: 'Juarez Traga semen de Sduard y lame culo de Rodrigo.',
+                data: data,
+            }]
+        }
+      });
+
+      },
+      error: (err) => {console.log(err)}
+    })
   }
 
   ngOnDestroy()

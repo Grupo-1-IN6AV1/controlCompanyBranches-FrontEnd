@@ -63,16 +63,19 @@
                 <button (click)="deleteProduct(product._id)" class="btn btn-danger"> <i class="fa fa-trash"
                         aria-hidden="true"></i>
                     Delete</button>
-                <button (click)="getProduct(product._id)" class="btn btn-danger" data-bs-toggle="modal"
+                <button (click)="getProduct(product._id)" data-bs-toggle="modal"
                     data-bs-target="#viewProduct" class="btn btn-secondary ms-2"> <i class="fa fa-eye"
                         aria-hidden="true"></i>
-                    View</button>
+                    View</button> <br>
+                    <button (click)="getProduct(product._id)" class="btn  btn-sample" data-bs-toggle="modal"
+                    data-bs-target="#sendProduct"> <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    Send Product</button>
             </div>
         </div>
     </div>
 </div>
 
-<!--MODAL ADD PRODUCTY-->
+<!--MODAL ADD PRODUCT-->
 <div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -230,6 +233,59 @@
 </div>
 
 
+<!--MODAL SEND PRODUCT-->
+<div class="modal fade" id="sendProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    &nbsp; Send Product:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="sendProductBranch(addProductBranchForm)" *ngIf="sendProduct" #addProductBranchForm="ngForm">
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Name</label>
+                        <input disabled [(ngModel)]="sendProduct.name" name="name" type="text" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Description</label>
+                        <input disabled [(ngModel)]="sendProduct.description" name="description" type="text"
+                            class="form-control" id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Stock</label>
+                        <input disabled [(ngModel)]="sendProduct.stock" min="0" name="stock" type="number" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Quantity Send</label>
+                        <input [(ngModel)]="productQuantity"  min="0" name="quantityProductBranch" type="number" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Branch</label>
+                        <select [(ngModel)]="productBranch" name="branch" class="form-select"
+                            aria-label="Default select example">
+                            <option disabled value="" selected>Choose a Branch</option>
+                            <option *ngFor="let branch of branches" value="{{ branch._id }}">{{branch.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>Discard</button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">
+                            <i class="fa fa-paper-plane" aria-hidden="true"></i> Send Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!--TABLE OF PRODUCTS-->
 <div *ngIf="showTableProducts" class="card shadow mb-4 mt-5">
     <div class="card-header py-3">
@@ -259,11 +315,13 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th (click)="getProductsOdernByUp();"
-                        >Name
-                            <i class="fa fa-sort-alpha-desc arrowsTable" aria-hidden="true"></i>
-                            <i class="fa fa-sort-alpha-asc ms-3" aria-hidden="true"></i>
-                            
+                        <th class="stock" *ngIf="!productNameUp" (click)="getProductsOderByUp();">Name
+                            <i class="thin fa fa-sort-alpha-desc text-gray-400 arrowsTable" aria-hidden="true"></i>
+                            <i class="thin fa fa-sort-alpha-asc text-gray-400 ms-3" aria-hidden="true"></i>
+                        </th>
+                        <th class="stock" *ngIf="productNameUp">Name
+                            <i class="thin fa fa-sort-alpha-desc arrowsTable" aria-hidden="true"></i>
+                            <i class="thin fa fa-sort-alpha-asc text-gray-400 ms-3" aria-hidden="true"></i>
                         </th>
                         <th>Description</th>
                         <th>Price</th>
@@ -285,7 +343,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody *ngIf="!productsStockElder && !productsStockMinor">
+                <tbody *ngIf="!productsStockElder && !productsStockMinor && !productNameUp">
                     <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
                         <td>{{allProducts.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
@@ -295,7 +353,7 @@
                         <td>{{product.stock}}</td>
                     </tr>
                 </tbody>
-                <tbody *ngIf="productsStockElder && !productsStockMinor">
+                <tbody *ngIf="productsStockElder && !productsStockMinor !productNameUp">
                     <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
                         <td>{{productsStockElder.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
@@ -305,7 +363,7 @@
                         <td>{{product.stock}}</td>
                     </tr>
                 </tbody>
-                <tbody *ngIf="productsStockMinor">
+                <tbody *ngIf="productsStockMinor && !productsStockElder">
                     <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
                         <td>{{productsStockMinor.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
@@ -315,9 +373,9 @@
                         <td>{{product.stock}}</td>
                     </tr>
                 </tbody>
-                <tbody *ngIf="getProductsOrderByUpVariable">
+                <tbody *ngIf="productNameUp">
                     <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
-                        <td>{{getProductsOrderByUpVariable.indexOf(product)+1}}</td>
+                        <td>{{productNameUp.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
                         <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>

@@ -15,6 +15,11 @@ export const navbarData = [
         label: 'Branches'
     },
     {
+        routeLink: '/companies/salesProducts',
+        icon: 'fas fa-shopping-cart',
+        label: 'Sales Products'
+    },
+    {
         routeLink: '/companies/profile',
         icon: 'fas fa-user',
         label: 'Profile'
