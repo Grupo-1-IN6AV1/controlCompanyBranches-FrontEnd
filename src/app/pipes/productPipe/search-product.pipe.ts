@@ -18,11 +18,20 @@ export class SearchProductPipe implements PipeTransform {
     {
       return allproducts;
     }
-    else if(search.searchProduct == undefined && search.filterSearch == undefined)
+    if(search.searchProduct == undefined && search.filterSearch ==undefined)
+    {
+      return allproducts;
+    }
+    if(search.searchProduct == '' && search.filterSearch ==undefined)
     {
       return allproducts;
     }
     else if(search.searchProduct && search.filterSearch == ''){
+      return allproducts.filter( (product:any) => {
+        return product.name.toLowerCase().includes(search.searchProduct.toLowerCase());
+      })
+    }
+    else if(search.searchProduct && search.filterSearch == undefined){
       return allproducts.filter( (product:any) => {
         return product.name.toLowerCase().includes(search.searchProduct.toLowerCase());
       })

@@ -70,4 +70,9 @@ export class BranchesRestService {
   {
     return this.http.post(environment.baseUrl + 'bill/createBill', params, {headers: this.httpOptions});
   }
+
+  getPDF(fileName : string)
+  {
+    return this.http.get(environment.baseUrl + 'bill/getPDF/'+ fileName, {headers: this.httpOptions});
+  }
 }

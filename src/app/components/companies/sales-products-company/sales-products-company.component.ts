@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BranchesRestService } from 'src/app/services/branchesRest/branches-rest.service';
+import { ProductRestService } from 'src/app/services/productRest/product-rest.service';
 import Swal from 'sweetalert2';
-import { SalesProductComponent } from '../sales-product/sales-product.component';
+import { Chart } from 'chart.js';
+import { CompanyRestService } from 'src/app/services/companyRest/company-rest.service';
 @Component({
   selector: 'app-sales-products-company',
   templateUrl: './sales-products-company.component.html',
   styleUrls: ['./sales-products-company.component.css']
 })
-export class SalesProductsCompanyComponent implements OnInit 
+export class SalesProductsCompanyComponent implements OnInit, OnDestroy
 {
 
   branches: any;
@@ -15,6 +17,7 @@ export class SalesProductsCompanyComponent implements OnInit
   branchView: any;
   branchID: any;
   branchName: any;
+  companyName: any;
   
 
   productsBranch: any;
@@ -30,10 +33,15 @@ export class SalesProductsCompanyComponent implements OnInit
   dpi: any;
   nit: any;
 
+  //QUETZALES
+  newPrices: any;
+
   
   constructor
   (
     private branchRest: BranchesRestService,  
+    private productRest: ProductRestService,
+    private companyRest : CompanyRestService
   )
   { }
 
@@ -56,6 +64,7 @@ export class SalesProductsCompanyComponent implements OnInit
     this.branchRest.getBranch(id).subscribe({
       next: (res: any) => {
         this.branchView = res.getBranch
+        this.companyName = res.getBranch.company.name
       },
       error: (err) => { alert(err.error.message) }
     })
@@ -68,6 +77,24 @@ export class SalesProductsCompanyComponent implements OnInit
     this.branchRest.getProducts(id).subscribe({
       next: (res: any) => {
         this.productsBranch = res.productsBranch
+        let allProducts = this.productsBranch
+        var arrayPrices = [];
+        for(var key=0; key<allProducts.length; key++)
+        {
+            var actualPrice = allProducts[key].price;
+            var stringPrices = actualPrice.toString();
+            var checkPrice = stringPrices.includes(".")
+            if(checkPrice == true)
+            {
+              arrayPrices.push(stringPrices);
+            }
+            else if (checkPrice == false)
+            {
+              var newPrice = stringPrices+'.00'
+              arrayPrices.push(newPrice);
+            }    
+        }
+        this.newPrices = arrayPrices;
       },
       error: (err) => { alert(err.error.message) }
     })
@@ -128,6 +155,208 @@ export class SalesProductsCompanyComponent implements OnInit
       },
       error: (err) => { alert(err.error.message) }
     })
+  }
+
+
+  //MANEJO DE LAS GRÁFICAS//
+  canvas: any;
+  ctx: any;
+  chart:any
+  productGraphic: any;
+  productTable: any;
+  viewGrafic: boolean = false;
+  viewTable: boolean = false;
+
+  graficBar() 
+  {
+    this.productRest.productGraphic(this.branchID).subscribe({
+      next: (res: any) => 
+      {
+        this.productGraphic = res.productsSales;
+        const setDataSets = []
+
+        for (var key=0; key < this.productGraphic.length; key ++)
+        {
+          var data =  this.productGraphic[key];
+          setDataSets.push({label:data.companyProduct.name, data:[data.sales]});
+        }
+
+        this.canvas = document.getElementById('myChart');
+        this.ctx = this.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx,
+        {
+          type: 'bar',
+          data:
+          {
+              labels: ['Most Sales Products of: "' + this.companyName + ' | ' + this.branchName + '"'],
+              datasets: setDataSets,
+          }
+        });
+      },
+      error: (err) => {console.log(err)}
+    })
+  }
+  
+
+  graficDonut()
+  {
+
+    this.productRest.productGraphic(this.branchID).subscribe({
+      next: (res: any) => 
+      {
+        this.productGraphic = res.productsSales;
+        const labels = []
+        const data = []
+
+        for (var key=0; key < this.productGraphic.length; key ++)
+        {
+          var dataProduct =  this.productGraphic[key];
+          labels.push(dataProduct.companyProduct.name);
+          data.push(dataProduct.sales);
+        }
+        
+        this.canvas = document.getElementById('myChart');
+        this.ctx = this.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: 
+            [{
+                data: data,
+            }]
+        },
+        options: {
+          plugins: {
+              title: {
+                  display: true,
+                  text: 'Most Sales Products of: "' + this.companyName + ' | ' + this.branchName + '"'
+              }
+          }
+      }
+      });
+
+      },
+      error: (err) => {console.log(err)}
+    })
+  }
+
+  graficPie()
+  {
+    this.productRest.productGraphic(this.branchID).subscribe({
+      next: (res: any) => 
+      {
+        this.productGraphic = res.productsSales;
+        const labels = []
+        const data = []
+
+        for (var key=0; key < this.productGraphic.length; key ++)
+        {
+          var dataProduct =  this.productGraphic[key];
+          labels.push(dataProduct.companyProduct.name);
+          data.push(dataProduct.sales);
+        }
+        
+        this.canvas = document.getElementById('myChart');
+        this.ctx = this.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: 
+            [{
+                data: data,
+            }]
+        },
+        options: {
+          plugins: {
+              title: {
+                  display: true,
+                  text: 'Most Sales Products of: "' + this.companyName + ' | ' + this.branchName + '"'
+              }
+          }
+      }
+      });
+
+      },
+      error: (err) => {console.log(err)}
+    })
+  }
+
+
+  graficLine()
+  {
+    this.productRest.productGraphic(this.branchID).subscribe({
+      next: (res: any) => 
+      {
+        this.productGraphic = res.productsSales;
+        const labels = []
+        const data = []
+
+        for (var key=0; key < this.productGraphic.length; key ++)
+        {
+          var dataProduct =  this.productGraphic[key];
+          labels.push(dataProduct.companyProduct.name);
+          data.push(dataProduct.sales);
+        }
+        
+        this.canvas = document.getElementById('myChart');
+        this.ctx = this.canvas.getContext('2d');
+        this.chart = new Chart(this.ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: 
+            [{
+                label: 'Most Sales Products of: "' + this.companyName + ' | ' + this.branchName + '"',
+                data: data,
+            }]
+        }
+      });
+
+      },
+      error: (err) => {console.log(err)}
+    })
+  }
+
+  table()
+  {
+    this.productRest.productGraphic(this.branchID).subscribe({
+      next: (res: any) => 
+      {
+        this.productTable = res.productsSales;
+        let allProducts = this.productTable
+        var arrayPrices = [];
+        for(var key=0; key<allProducts.length; key++)
+        {
+            var actualPrice = allProducts[key].price;
+            var stringPrices = actualPrice.toString();
+            var checkPrice = stringPrices.includes(".")
+            if(checkPrice == true)
+            {
+              arrayPrices.push(stringPrices);
+            }
+            else if (checkPrice == false)
+            {
+              var newPrice = stringPrices+'.00'
+              arrayPrices.push(newPrice);
+            }    
+        }
+        this.newPrices = arrayPrices;
+      },
+      error: (err) => {console.log(err)}
+    })
+  }
+
+
+  ngOnDestroy()
+  {
+    if (this.chart) {this.chart.destroy();}
+  }
+
+  mostSalesProducts()
+  {
+    this.viewGrafic =! this.viewGrafic;
   }
 
 }
