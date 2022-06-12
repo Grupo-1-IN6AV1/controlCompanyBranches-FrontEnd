@@ -75,14 +75,14 @@
                         <label for="nameTeam" class="form-label">Description</label>
                         <input [(ngModel)]="typeCompany.description" name="description" type="text" class="form-control" id="nameTeam">
                     </div>
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Save</button>
+                        <button type="submit" class="btn btn-success"
+                            data-bs-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Type Company
+                        </button>
+                    </div>
                 </form>
-            </div>
-            <div class=" modal-footer justify-content-center">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Save</button>
-                <button type="submit" class="btn btn-success"
-                    data-bs-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Type Company
-                </button>
             </div>
         </div>
     </div>
