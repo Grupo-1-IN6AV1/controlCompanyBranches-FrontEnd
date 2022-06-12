@@ -110,14 +110,14 @@
                         <input [(ngModel)]="product.stock" min="0" name="stock" type="number" class="form-control"
                             id="nameTeam">
                     </div>
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>Discard Save</button>
+                        <button type="submit" class="btn btn-success"
+                            data-bs-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Product
+                        </button>
+                    </div>
                 </form>
-            </div>
-            <div class=" modal-footer justify-content-center">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i>Discard Save</button>
-                <button type="submit" class="btn btn-success"
-                    data-bs-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Product
-                </button>
             </div>
         </div>
     </div>
