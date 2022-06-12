@@ -15,7 +15,6 @@ import { HomeCompanyComponent } from './components/companies/home-company/home-c
 import { ProductsCompanyComponent } from './components/companies/products-company/products-company.component';
 import { BranchesCompanyComponent } from './components/companies/branches-company/branches-company.component';
 import { ProfileCompanyComponent } from './components/companies/profile-company/profile-company.component';
-import { PruebaComponent } from './components/prueba/prueba.component';
 import { BranchesAdminComponent } from './components/admin/branches-admin/branches-admin.component';
 import { SalesProductsCompanyComponent } from './components/companies/sales-products-company/sales-products-company.component';
 import { SalesProductComponent } from './components/companies/sales-product/sales-product.component';
@@ -27,7 +26,6 @@ const routes: Routes = [
   
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'grafica', component: PruebaComponent},
 
   //CONTROL DE RUTAS DE COMPANIES//
   {
@@ -40,7 +38,6 @@ const routes: Routes = [
       { path: 'profile', component: ProfileCompanyComponent},
       { path: 'salesProducts', component: SalesProductsCompanyComponent},
       { path: 'sales', component: SalesProductComponent},
-
     ]
   },
   //CONTROL DE RUTAS DE ADMIN//

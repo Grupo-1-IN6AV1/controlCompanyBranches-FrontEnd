@@ -4,6 +4,10 @@
 	font-weight: 600;
 	color: #000000;
 }
+body
+{
+  overflow-x: hidden;
+}
 
 .modal-header {
 	color:#fff;
@@ -808,7 +812,6 @@ hr
 
 .drop
 {
-  border-radius: 36px 0 0 36px;
   height: 100%;
   background-color: #005A5D;
   color: white;
@@ -816,7 +819,6 @@ hr
 
 .drop:focus
 {
-  border-radius: 36px 0 0 36px;
   height: 100%;
   background-color: #006f73;
   border-color: #005A5D;
@@ -907,4 +909,11 @@ fieldset[disabled] .btn-sample.active {
 .btn-sample .badge { 
   color: #138D75; 
   background-color: #FFFFFF; 
+}
+
+.contenedor-grafica-tabla
+{
+  display: flex;  
+  align-items: center; 
+  justify-content: center
 }

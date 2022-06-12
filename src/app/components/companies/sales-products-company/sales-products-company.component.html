@@ -23,18 +23,24 @@
         </span>
         <span class="text">Back Home</span>
     </button>
-    <button *ngIf="shoppingCart" routerLink="/companies/sales" class="btn btn-warning btn-icon-split">
+    <button *ngIf="shoppingCart.length != 0" routerLink="/companies/sales" class="btn btn-warning btn-icon-split">
         <span class="icon">
             <i class="fa fa-file-text-o" aria-hidden="true"></i>
         </span>
         <span class="text">Details Sale</span>
+    </button>
+    <button *ngIf="productsBranch" (click)="mostSalesProducts(); table(); graficDonut();" class="btn btn-success btn-icon-split">
+        <span class="icon">
+            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+        </span>
+        <span class="text">Most Sales Products</span>
     </button>
 </div>
 <hr>
 
 <!--CARDS DE BRANCHS-->
 <div>
-    <div *ngIf="!productsBranch" class="container">
+    <div *ngIf="!productsBranch && !viewGrafic" class="container">
         <div class="products-container">
             <div *ngFor="let branch of branches | searchBranch:searchBranches" class="product" data-name="p-1">
                 <h5 class="card-title">{{branch.name}}</h5>
@@ -43,10 +49,10 @@
                 <p name="category" class="card-text">{{branch.phone}}</p>
                 <button (click)="getBranch(branch._id)" class="btn btn-danger" data-bs-toggle="modal"
                     data-bs-target="#viewBranch" class="btn btn-secondary ms-2"> <i class="fa fa-eye"
-                        aria-hidden="true"></i> 
+                        aria-hidden="true"></i>
                     View Branch</button>
-                <button (click)="getProductsBranch(branch._id, branch.name)" class="btn btn-sample ms-4"> <i class="fa fa-box"
-                        aria-hidden="true"></i> 
+                <button (click)="getProductsBranch(branch._id, branch.name); getBranch(branch._id)" class="btn btn-sample ms-4"> <i
+                        class="fa fa-box" aria-hidden="true"></i>
                     View Products</button>
             </div>
         </div>
@@ -56,20 +62,21 @@
 
 <!--CARDS DE PRODUCTS-->
 <div>
-    <div *ngIf="productsBranch" class="container">
+    <div *ngIf="productsBranch && !viewGrafic" class="container">
         <div class="products-container">
             <div *ngFor="let product of productsBranch" class="product" data-name="p-1">
                 <h5 class="card-title">{{product.companyProduct.name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"> {{product.stock}} units</h6>
                 <h6 class="card-subtitle mb-2 text-muted">{{product.sales}} sales</h6>
-                <p name="category" class="card-text">Q.{{product.companyProduct.price}}</p>
+                <p name="category" class="card-text">Q.{{newPrices[productsBranch.indexOf(product)]}}</p>
                 <button (click)="getProductBranch(product._id)" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#viewProduct" class="btn btn-secondary ms-2"> 
+                    data-bs-target="#viewProduct" class="btn btn-secondary ms-2">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                     View
                 </button>
-                <button (click)="getProductBranch(product._id); getProductID(product.companyProduct._id)" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#saleProduct" class="btn btn-sample ms-2"> 
+                <button (click)="getProductBranch(product._id); getProductID(product.companyProduct._id)"
+                    class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#saleProduct"
+                    class="btn btn-sample ms-2">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                     Sale
                 </button>
@@ -208,30 +215,31 @@
             <div class="modal-header">
                 <h5>
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        &nbsp; Sale Product:
+                    &nbsp; Sale Product:
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                    <form (ngSubmit)="salesProducts(saleProductForm)" *ngIf="saleProduct" #saleProductForm="ngForm">
+                <form (ngSubmit)="salesProducts(saleProductForm)" *ngIf="saleProduct" #saleProductForm="ngForm">
                     <div class="mb-3">
                         <label for="nameTeam" class="form-label">Name</label>
-                        <input disabled [(ngModel)]="saleProduct.companyProduct.name" name="name" type="text" class="form-control"
-                            id="nameTeam">
-                    </div>
-                    <div class="mb-3">
-                        <label for="nameTeam" class="form-label">Price</label>
-                        <input disabled [(ngModel)]="saleProduct.price" name="price" type="text"
+                        <input disabled [(ngModel)]="saleProduct.companyProduct.name" name="name" type="text"
                             class="form-control" id="nameTeam">
                     </div>
                     <div class="mb-3">
-                        <label for="nameTeam" class="form-label">Stock</label>
-                        <input disabled [(ngModel)]="saleProduct.stock" min="0" name="stock" type="number" class="form-control"
+                        <label for="nameTeam" class="form-label">Price</label>
+                        <input disabled [(ngModel)]="saleProduct.price" name="price" type="text" class="form-control"
                             id="nameTeam">
                     </div>
                     <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Stock</label>
+                        <input disabled [(ngModel)]="saleProduct.stock" min="0" name="stock" type="number"
+                            class="form-control" id="nameTeam">
+                    </div>
+                    <div class="mb-3">
                         <label for="nameTeam" class="form-label">Quantity Sale</label>
-                        <input [(ngModel)]="productQuantity"  min="0" name="quantityProductBranch" type="number" class="form-control">
+                        <input [(ngModel)]="productQuantity" min="0" name="quantityProductBranch" type="number"
+                            class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="nameTeam" class="form-label">Client Name</label>
@@ -256,4 +264,50 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<!--TABLE OF PRODUCTS-->
+<div class="text-center contenedor-grafica-tabla">
+<div style="width:50vw " class="card shadow mb-4 mt-5">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold colorTable">Most Sales Products of "{{companyName}} | {{branchName}}"</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Sales</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of productTable">
+                        <td>{{productTable.indexOf(product)+1}}</td>
+                        <td>{{product.companyProduct.name}}</td>
+                        <td>Q.{{newPrices[productTable.indexOf(product)]}}</td>
+                        <td>{{product.stock}}</td>
+                        <td>{{product.sales}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<!--GRÁFICA DE PRODUCTOS MAS VENDIDOS-->
+<div *ngIf="viewGrafic" class="ms-5" style="height:auto; width: 50vw;">
+    <button (click)="ngOnDestroy();graficBar();">BAR</button>
+    <button (click)="ngOnDestroy();graficDonut()">DONUT</button>
+    <button (click)="ngOnDestroy();graficPie()">PIE</button>
+    <button (click)="ngOnDestroy();graficLine()">LINE</button>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
 </div>

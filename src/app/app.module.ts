@@ -31,7 +31,6 @@ import { ProductsCompanyComponent } from './components/companies/products-compan
 import { BranchesCompanyComponent } from './components/companies/branches-company/branches-company.component';
 import { SearchBranchPipe } from './pipes/branchPipe/search-branch.pipe';
 import { ProfileCompanyComponent } from './components/companies/profile-company/profile-company.component';
-import { PruebaComponent } from './components/prueba/prueba.component';
 import { NgChartsModule } from 'ng2-charts';
 import { BranchesAdminComponent } from './components/admin/branches-admin/branches-admin.component';
 import { SearchBrachAdminPipe } from './pipes/branchAdmin/search-branch-admin.pipe';
@@ -65,7 +64,6 @@ import { SalesProductComponent } from './components/companies/sales-product/sale
     BranchesCompanyComponent,
     SearchBranchPipe,
     ProfileCompanyComponent,
-    PruebaComponent,
     BranchesAdminComponent,
     SearchBrachAdminPipe,
     SalesProductsCompanyComponent,
