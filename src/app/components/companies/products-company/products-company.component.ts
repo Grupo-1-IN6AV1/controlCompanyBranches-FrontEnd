@@ -31,6 +31,7 @@ export class ProductsCompanyComponent implements OnInit {
   companyName: any;
   showTableProducts: boolean = false;
   productNameUp: any;
+  productNameDown: any;
   branches: any;
 
   //ENVIAR PRODUCTOS A SUCURSAL//
@@ -222,6 +223,7 @@ export class ProductsCompanyComponent implements OnInit {
         this.productsStockElder = res.products,
         this.productsStockMinor = this.reset,
         this.productNameUp = this.reset;
+        this.productNameDown = this.reset
         this.allProducts = res.products
         let allProducts = this.allProducts
         var arrayPrices = [];
@@ -252,6 +254,7 @@ export class ProductsCompanyComponent implements OnInit {
         this.productsStockMinor = res.products,
         this.productsStockElder = this.reset,
         this.productNameUp = this.reset;
+        this.productNameDown = this.reset
         this.allProducts = res.products
         let allProducts = this.allProducts
         var arrayPrices = [];
@@ -280,6 +283,8 @@ export class ProductsCompanyComponent implements OnInit {
   {
     this.productsStockElder = this.reset;
     this.productsStockMinor = this.reset;
+    this.productNameUp = this.reset
+    this.productNameDown = this.reset
     this.filterSearch = this.reset;
     this.getProducts();
     this.filter='Search...'
@@ -292,7 +297,40 @@ export class ProductsCompanyComponent implements OnInit {
       {
         this.productsStockElder = this.reset
         this.productsStockMinor = this.reset
+        this.productNameDown = this.reset
         this.productNameUp = res.products
+        this.allProducts = res.products
+        let allProducts = this.allProducts
+        var arrayPrices = [];
+        for(var key=0; key<allProducts.length; key++)
+        {
+            var actualPrice = allProducts[key].price;
+            var stringPrices = actualPrice.toString();
+            var checkPrice = stringPrices.includes(".")
+            if(checkPrice == true)
+            {
+              arrayPrices.push(stringPrices);
+            }
+            else if (checkPrice == false)
+            {
+              var newPrice = stringPrices+'.00'
+              arrayPrices.push(newPrice);
+            }    
+        }
+        this.newPrices = arrayPrices;
+      },
+      error: (err) => console.log(err)
+    })
+  }
+
+  getProductsOderByDown(){
+    this.productRest.getProductsOderByDown().subscribe({
+      next: (res:any)=>
+      {
+        this.productsStockElder = this.reset
+        this.productsStockMinor = this.reset
+        this.productNameUp = this.reset
+        this.productNameDown = res.products
         this.allProducts = res.products
         let allProducts = this.allProducts
         var arrayPrices = [];

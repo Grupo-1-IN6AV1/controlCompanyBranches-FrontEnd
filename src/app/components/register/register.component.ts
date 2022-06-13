@@ -15,7 +15,7 @@ export class RegisterComponent implements OnInit
   company:CompanyModel;
   confirmPassword : string = '';
   timer : any;
-  typeCompany: any;
+  typesCompanies: any;
   constructor
   (
     private companyRest : CompanyRestService,
@@ -30,10 +30,11 @@ export class RegisterComponent implements OnInit
     this.getTypeCompanies();
   }
 
-  getTypeCompanies(){
+  getTypeCompanies()
+  {
     this.typeCompanyRest.getTypeCompany().subscribe({
-      next: (res: any) => this.typeCompany = res.typeCompanyExist,
-      error: (err) => console.log(err)
+      next: (res:any)=> this.typesCompanies = res.typeCompanyExist,
+      error: (err)=> console.log(err)
     })
   }
 

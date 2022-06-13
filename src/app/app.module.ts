@@ -36,6 +36,7 @@ import { BranchesAdminComponent } from './components/admin/branches-admin/branch
 import { SearchBrachAdminPipe } from './pipes/branchAdmin/search-branch-admin.pipe';
 import { SalesProductsCompanyComponent } from './components/companies/sales-products-company/sales-products-company.component';
 import { SalesProductComponent } from './components/companies/sales-product/sales-product.component';
+import { ProductBranchPipePipe } from './pipes/productBranchPipe/product-branch-pipe.pipe';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { SalesProductComponent } from './components/companies/sales-product/sale
     SearchBrachAdminPipe,
     SalesProductsCompanyComponent,
     SalesProductComponent,
+    ProductBranchPipePipe,
   ],
   imports: [
     BrowserModule,

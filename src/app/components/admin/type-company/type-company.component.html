@@ -39,11 +39,12 @@
 <div>
     <div class="container">
         <div class="products-container">
-            <div *ngFor="let typeCompany of typeCompanies | searchTownship:searchTypeCompany" class="product" data-name="p-1">
+            <div *ngFor="let typeCompany of typeCompanies | searchTownship:searchTypeCompany" class="product"
+                data-name="p-1">
                 <h5 class="card-title">{{typeCompany.name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"> {{ typeCompany.description}} </h6>
-                <button (click)="getTypeCompanies(typeCompany._id)" class="btn btn-success m-3" data-bs-toggle="modal" data-bs-target="#updateTownship"
-                    class="btn btn-warning m-2" aria-controls="offcanvasExample">
+                <button (click)="getTypeCompanies(typeCompany._id)" class="btn btn-success m-3" data-bs-toggle="modal"
+                    data-bs-target="#updateTownship" class="btn btn-warning m-2" aria-controls="offcanvasExample">
                     <i class="fa fa-pencil" aria-hidden="true">
                     </i> Update
                 </button>
@@ -69,20 +70,24 @@
                 <form (ngSubmit)="saveTypeCompany(addTypeCompanyForm)" #addTypeCompanyForm="ngForm">
                     <div class="mb-3">
                         <label for="nameTeam" class="form-label">Name</label>
-                        <input [(ngModel)]="typeCompany.name" name="name" type="text" class="form-control" id="nameTeam">
+                        <input [(ngModel)]="typeCompany.name" name="name" type="text" class="form-control"
+                            id="nameTeam">
                     </div>
                     <div class="mb-3">
                         <label for="nameTeam" class="form-label">Description</label>
-                        <input [(ngModel)]="typeCompany.description" name="description" type="text" class="form-control" id="nameTeam">
+                        <input [(ngModel)]="typeCompany.description" name="description" type="text" class="form-control"
+                            id="nameTeam">
                     </div>
+
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Save</button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i> Save Type Company
+                        </button>
+                    </div>
+                    
                 </form>
-            </div>
-            <div class=" modal-footer justify-content-center">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Save</button>
-                <button type="submit" class="btn btn-success"
-                    data-bs-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Type Company
-                </button>
             </div>
         </div>
     </div>
@@ -107,8 +112,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="descriptionUpdate" class="form-label">Description</label>
-                        <input [(ngModel)]="typeCompanyUpdate.description" name="descripcion" type="text" class="form-control"
-                            id="descriptionUpdate" aria-describedby="emailHelp">
+                        <input [(ngModel)]="typeCompanyUpdate.description" name="descripcion" type="text"
+                            class="form-control" id="descriptionUpdate" aria-describedby="emailHelp">
                     </div>
                     <div class=" modal-footer justify-content-center">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
