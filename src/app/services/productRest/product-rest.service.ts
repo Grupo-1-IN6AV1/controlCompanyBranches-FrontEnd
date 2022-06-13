@@ -56,6 +56,26 @@ export class ProductRestService {
     return this.http.delete(environment.baseUrl + 'companyProduct/deleteProductisAdmin/' + id, {headers: this.httpOptions});
   }
 
+  getProductsStockElderAdmin()
+  {
+    return this.http.get(environment.baseUrl + 'companyProduct/getProductStockElderAdmin', {headers: this.httpOptions});
+  }
+
+  getProductsStockMinorAdmin()
+  {
+    return this.http.get(environment.baseUrl + 'companyProduct/getProductStockAdmin', {headers: this.httpOptions});
+  }
+
+  getProductsOderByUpAdmin()
+  {
+    return this.http.get(environment.baseUrl+ 'companyProduct/getProductsOrderByUpAdmin', {headers:this.httpOptions});
+  }
+
+  getProductsOderByDownAdmin()
+  {
+    return this.http.get(environment.baseUrl+ 'companyProduct/getProductsOrderByDownAdmin', {headers:this.httpOptions});
+  }
+
 
   //COMPANY//
 

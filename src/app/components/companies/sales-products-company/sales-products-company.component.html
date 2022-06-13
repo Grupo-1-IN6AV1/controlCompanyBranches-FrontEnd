@@ -1,8 +1,18 @@
 <!--TÍTULO DEL COMPONENTE-->
-<div class="head-title">
+<div *ngIf="!viewMostSalesProducts" class="head-title">
     <div class="left">
         <h1>
             &nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i> Sales Products
+        </h1>
+        <hr class="mb-2">
+    </div>
+</div>
+
+<!--TÍTULO DEL COMPONENTE-->
+<div *ngIf="viewMostSalesProducts" class="head-title">
+    <div class="left">
+        <h1>
+            &nbsp;<i class="fa fa-box" aria-hidden="true"></i> Most Sales Products
         </h1>
         <hr class="mb-2">
     </div>
