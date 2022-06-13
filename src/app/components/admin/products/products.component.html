@@ -54,7 +54,7 @@
             <div *ngFor="let product of allProducts" class="product" data-name="p-1">
                 <h5 class="card-title">{{product.name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"> {{product.company.name}} </h6>
-                <p name="category" class="card-text">Q.{{product.price}}</p>
+                <p name="category" class="card-text">Q.{{newPrices[allProducts.indexOf(product)]}}</p>
                 <button (click)="getProduct(product._id)" class="btn btn-success m-3" data-bs-toggle="modal"
                     data-bs-target="#updateProduct" class="btn btn-warning m-2" aria-controls="offcanvasExample">
                     <i class="fa fa-pencil" aria-hidden="true">
@@ -119,8 +119,8 @@
                     <div class=" modal-footer justify-content-center">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
                             <i class="fa fa-times-circle" aria-hidden="true"></i>Discard Save</button>
-                        <button type="submit" class="btn btn-success"
-                            data-bs-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Product
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i> Save Product
                         </button>
                     </div>
                 </form>
@@ -189,7 +189,7 @@
 
                             <div class="box">
                                 <h3>Name:</h3>
-                                
+
                             </div>
 
                             <div class="box">
@@ -253,8 +253,21 @@
         <h6 class="m-0 font-weight-bold colorTable">Products of "Admin"</h6>
     </div>
     <div class="form-input-table mt-3 ms-auto">
-        <input [(ngModel)]="searchProduct" placeholder="Search...">
-        <button type="submit" class="search-btn"><i class='fa fa-search'></i></button>
+        <i *ngIf="productsStockMinor || productsStockElder || productNameUp || productNameDown" (click)="cleanTable()"
+            class="fa fa-times-circle closeFilter mt-2" aria-hidden="true"></i>
+
+        <div class="dropdown">
+            <button class="btn dropdown-toggle drop" data-toggle="dropdown" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Search For:
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li (click)="getFilter('name')"><a value="name" class="dropdown-item">Name</a></li>
+                <li (click)="getFilter('provider')"><a class="dropdown-item">Provider</a></li>
+            </ul>
+        </div>
+        <input [(ngModel)]="searchProduct" placeholder="{{filter}}">
+        <button type="submit" class="search-btn button"><i class='fa fa-search'></i></button>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -263,31 +276,94 @@
                     <tr>
                         <th>#</th>
                         <th>Company</th>
-                        <th>Name</th>
+                        <th class="stock" *ngIf="!productNameUp && !productNameDown" (click)="getProductsOderByUp()">
+                            Name
+                            <i class="fa fa-sort-alpha-asc  text-gray-400 arrowsTable" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc text-gray-400 ms-3"></i>
+                        </th>
+                        <th class="stock" *ngIf="productNameUp && !productNameDown" (click)="getProductsOderByDown()">
+                            Name
+                            <i class="fa fa-sort-alpha-asc arrowsTable" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc text-gray-400 ms-3"></i>
+                        </th>
+                        <th class="stock" *ngIf="productNameDown" (click)="getProductsOderByUp()">
+                            Name
+                            <i class="fa fa-sort-alpha-asc  text-gray-400 arrowsTable" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc ms-3"></i>
+                        </th>
                         <th>Description</th>
                         <th>Price</th>
                         <th>Provider</th>
-                        <th>Stock</th>
+                        <th class="stock" *ngIf="!productsStockElder && !productsStockMinor"
+                            (click)="getProductsStockElder()">
+                            Stock
+                            <i class="fa fa-long-arrow-up text-gray-400 arrowsTable"></i>
+                            <i class="fa fa-long-arrow-down ms-1 text-gray-400 "></i>
+                        </th>
+                        <th class="stock" *ngIf="productsStockElder && !productsStockMinor"
+                            (click)="getProductsStockMinor()">
+                            Stock
+                            <i class="fa fa-long-arrow-up  arrowsTable"></i>
+                            <i class="fa fa-long-arrow-down text-gray-400 ms-1"></i>
+                        </th>
+                        <th class="stock" *ngIf="productsStockMinor" (click)="getProductsStockElder()">
+                            Stock
+                            <i class="fa fa-long-arrow-up text-gray-400 arrowsTable"></i>
+                            <i class="fa fa-long-arrow-down ms-1"></i>
+                        </th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>#</th>
-                        <th>Company</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Provider</th>
-                        <th>Stock</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <tr *ngFor="let product of allProducts">
+                <tbody *ngIf="!productsStockElder && !productsStockMinor && !productNameUp && !productNameDown">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
                         <td>{{allProducts.indexOf(product)+1}}</td>
                         <td>{{product.company.name}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
-                        <td>Q .{{product.price}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="productsStockElder && !productsStockMinor && !productNameUp && !productNameDown">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
+                        <td>{{productsStockElder.indexOf(product)+1}}</td>
+                        <td>{{product.company.name}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="productsStockMinor && !productsStockElder  && !productNameUp && !productNameDown">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
+                        <td>{{productsStockMinor.indexOf(product)+1}}</td>
+                        <td>{{product.company.name}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="productNameUp && !productsStockElder && !productsStockMinor && !productNameDown">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
+                        <td>{{productNameUp.indexOf(product)+1}}</td>
+                        <td>{{product.company.name}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="productNameDown && !productsStockElder && !productsStockMinor && !productNameUp">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
+                        <td>{{productNameDown.indexOf(product)+1}}</td>
+                        <td>{{product.company.name}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
                         <td>{{product.providerName}}</td>
                         <td>{{product.stock}}</td>
                     </tr>
