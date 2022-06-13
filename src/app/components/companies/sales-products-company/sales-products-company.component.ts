@@ -14,10 +14,13 @@ export class SalesProductsCompanyComponent implements OnInit, OnDestroy
 
   branches: any;
   searchBranches: any;
+  searchProducts: any;
   branchView: any;
   branchID: any;
   branchName: any;
   companyName: any;
+
+  reset:any
   
 
   productsBranch: any;
@@ -41,7 +44,6 @@ export class SalesProductsCompanyComponent implements OnInit, OnDestroy
   (
     private branchRest: BranchesRestService,  
     private productRest: ProductRestService,
-    private companyRest : CompanyRestService
   )
   { }
 
@@ -53,6 +55,7 @@ export class SalesProductsCompanyComponent implements OnInit, OnDestroy
 
   getBranches()
   {
+    this.productsBranch = this.reset
     this.branchRest.getBranches().subscribe({
       next: (res: any) => 
       {this.branches = res.getBranches},
@@ -77,6 +80,7 @@ export class SalesProductsCompanyComponent implements OnInit, OnDestroy
     this.branchRest.getProducts(id).subscribe({
       next: (res: any) => {
         this.productsBranch = res.productsBranch
+        console.log(this.productsBranch)
         let allProducts = this.productsBranch
         var arrayPrices = [];
         for(var key=0; key<allProducts.length; key++)
@@ -164,8 +168,10 @@ export class SalesProductsCompanyComponent implements OnInit, OnDestroy
   chart:any
   productGraphic: any;
   productTable: any;
-  viewGrafic: boolean = false;
-  viewTable: boolean = false;
+  viewMostSalesProducts: boolean = false;
+  show: boolean = false;
+  tableProducts: boolean = false;
+  graphicProducts: boolean = false;
 
   graficBar() 
   {
@@ -200,7 +206,6 @@ export class SalesProductsCompanyComponent implements OnInit, OnDestroy
 
   graficDonut()
   {
-
     this.productRest.productGraphic(this.branchID).subscribe({
       next: (res: any) => 
       {
@@ -356,7 +361,12 @@ export class SalesProductsCompanyComponent implements OnInit, OnDestroy
 
   mostSalesProducts()
   {
-    this.viewGrafic =! this.viewGrafic;
+    this.viewMostSalesProducts =! this.viewMostSalesProducts;
+  }
+
+  viewProducts()
+  {
+    this.viewMostSalesProducts =! this.viewMostSalesProducts;
   }
 
 }

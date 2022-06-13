@@ -41,8 +41,8 @@
         <div class="products-container">
             <div *ngFor="let township of townships | searchTownship:searchTownship" class="product" data-name="p-1">
                 <h5 class="card-title">{{township.name}}</h5>
-                <button (click)="getTownship(township._id)" class="btn btn-success m-3" data-bs-toggle="modal" data-bs-target="#updateTownship"
-                    class="btn btn-warning m-2" aria-controls="offcanvasExample">
+                <button (click)="getTownship(township._id)" class="btn btn-success m-3" data-bs-toggle="modal"
+                    data-bs-target="#updateTownship" class="btn btn-warning m-2" aria-controls="offcanvasExample">
                     <i class="fa fa-pencil" aria-hidden="true">
                     </i> Update
                 </button>
@@ -69,13 +69,6 @@
                     <div class="mb-3">
                         <label for="nameTeam" class="form-label">Name</label>
                         <input [(ngModel)]="township.name" name="name" type="text" class="form-control" id="nameTeam">
-                    </div>
-                    <div class=" modal-footer justify-content-center">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                            <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Save</button>
-                        <button type="submit" class="btn btn-success"
-                            data-bs-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Township
-                        </button>
                     </div>
                 </form>
             </div>

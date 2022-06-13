@@ -82,6 +82,11 @@ export class ProductRestService {
     return this.http.get(environment.baseUrl+ 'companyProduct/getProductsOrderByUp', {headers:this.httpOptions});
   }
 
+  getProductsOderByDown()
+  {
+    return this.http.get(environment.baseUrl+ 'companyProduct/getProductsOrderByDown', {headers:this.httpOptions});
+  }
+
   getBranches()
   {
     return this.http.get(environment.baseUrl + 'company/getBranches', {headers: this.httpOptions});

@@ -293,7 +293,7 @@
     </div>
 
     <div class="form-input-table mt-3 ms-auto">
-        <i *ngIf="productsStockMinor || productsStockElder" (click)="cleanTable()"
+        <i *ngIf="productsStockMinor || productsStockElder || productNameUp || productNameDown" (click)="cleanTable()"
             class="fa fa-times-circle closeFilter mt-2" aria-hidden="true"></i>
 
         <div class="dropdown">
@@ -315,13 +315,20 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th class="stock" *ngIf="!productNameUp" (click)="getProductsOderByUp();">Name
-                            <i class="thin fa fa-sort-alpha-desc text-gray-400 arrowsTable" aria-hidden="true"></i>
-                            <i class="thin fa fa-sort-alpha-asc text-gray-400 ms-3" aria-hidden="true"></i>
+                        <th class="stock" *ngIf="!productNameUp && !productNameDown" (click)="getProductsOderByUp()">
+                            Name
+                            <i class="fa fa-sort-alpha-asc  text-gray-400 arrowsTable" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc text-gray-400 ms-3"></i>
                         </th>
-                        <th class="stock" *ngIf="productNameUp">Name
-                            <i class="thin fa fa-sort-alpha-desc arrowsTable" aria-hidden="true"></i>
-                            <i class="thin fa fa-sort-alpha-asc text-gray-400 ms-3" aria-hidden="true"></i>
+                        <th class="stock" *ngIf="productNameUp && !productNameDown" (click)="getProductsOderByDown()">
+                            Name
+                            <i class="fa fa-sort-alpha-asc arrowsTable" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc text-gray-400 ms-3"></i>
+                        </th>
+                        <th class="stock" *ngIf="productNameDown" (click)="getProductsOderByUp()">
+                            Name
+                            <i class="fa fa-sort-alpha-asc  text-gray-400 arrowsTable" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc ms-3"></i>
                         </th>
                         <th>Description</th>
                         <th>Price</th>
@@ -343,7 +350,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody *ngIf="!productsStockElder && !productsStockMinor && !productNameUp">
+                <tbody *ngIf="!productsStockElder && !productsStockMinor && !productNameUp && !productNameDown">
                     <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
                         <td>{{allProducts.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
@@ -353,7 +360,7 @@
                         <td>{{product.stock}}</td>
                     </tr>
                 </tbody>
-                <tbody *ngIf="productsStockElder && !productsStockMinor !productNameUp">
+                <tbody *ngIf="productsStockElder && !productsStockMinor && !productNameUp && !productNameDown">
                     <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
                         <td>{{productsStockElder.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
@@ -363,7 +370,7 @@
                         <td>{{product.stock}}</td>
                     </tr>
                 </tbody>
-                <tbody *ngIf="productsStockMinor && !productsStockElder">
+                <tbody *ngIf="productsStockMinor && !productsStockElder  && !productNameUp && !productNameDown">
                     <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
                         <td>{{productsStockMinor.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
@@ -373,9 +380,19 @@
                         <td>{{product.stock}}</td>
                     </tr>
                 </tbody>
-                <tbody *ngIf="productNameUp">
+                <tbody *ngIf="productNameUp && !productsStockElder && !productsStockMinor && !productNameDown">
                     <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
                         <td>{{productNameUp.indexOf(product)+1}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="productNameDown && !productsStockElder && !productsStockMinor && !productNameUp">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
+                        <td>{{productNameDown.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
                         <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>

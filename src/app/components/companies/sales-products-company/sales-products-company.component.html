@@ -4,16 +4,19 @@
         <h1>
             &nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i> Sales Products
         </h1>
-        <hr>
+        <hr class="mb-2">
     </div>
 </div>
 
-<!-- DESPLIEGA LA BÚSQUEDA -->
-<div class="form-input mt-5">
-    <input [(ngModel)]="searchBranches" placeholder="Search...">
+<!-- DESPLIEGA LA BÚSQUEDA-->
+<div *ngIf="!viewMostSalesProducts" class="form-input mt-5">
+    <input *ngIf="!productsBranch" [(ngModel)]="searchBranches" placeholder="Search...">
+    <input *ngIf="productsBranch" [(ngModel)]="searchProducts" placeholder="Search...">
     <button type="submit" class="search-btn"><i class='fa fa-search'></i></button>
 </div>
 <br>
+
+
 
 <!--BOTONES DE ACCESO RÁPIDO-->
 <div class="text-center mt-2 mb-2">
@@ -29,18 +32,34 @@
         </span>
         <span class="text">Details Sale</span>
     </button>
-    <button *ngIf="productsBranch" (click)="mostSalesProducts(); table(); graficDonut();" class="btn btn-success btn-icon-split">
+    <button *ngIf="productsBranch && !viewMostSalesProducts" (click)="mostSalesProducts(); table(); graficDonut();"
+        class="btn btn-success btn-icon-split">
         <span class="icon">
-            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+            <i class="fa fa-box" aria-hidden="true"></i>
         </span>
         <span class="text">Most Sales Products</span>
     </button>
+    <button *ngIf="productsBranch && !viewMostSalesProducts" (click)="getBranches()"
+        class="btn btn-warning btn-icon-split">
+        <span class="icon">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </span>
+        <span class="text">Return Branches</span>
+    </button>
+
+    <button *ngIf="viewMostSalesProducts" (click)="viewProducts()"
+        class="btn btn-warning btn-icon-split">
+        <span class="icon">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </span>
+        <span class="text">Return Products</span>
+    </button>
 </div>
-<hr>
+<hr class="mt-4">
 
 <!--CARDS DE BRANCHS-->
 <div>
-    <div *ngIf="!productsBranch && !viewGrafic" class="container">
+    <div *ngIf="!productsBranch && !viewMostSalesProducts" class="container">
         <div class="products-container">
             <div *ngFor="let branch of branches | searchBranch:searchBranches" class="product" data-name="p-1">
                 <h5 class="card-title">{{branch.name}}</h5>
@@ -51,8 +70,8 @@
                     data-bs-target="#viewBranch" class="btn btn-secondary ms-2"> <i class="fa fa-eye"
                         aria-hidden="true"></i>
                     View Branch</button>
-                <button (click)="getProductsBranch(branch._id, branch.name); getBranch(branch._id)" class="btn btn-sample ms-4"> <i
-                        class="fa fa-box" aria-hidden="true"></i>
+                <button (click)="getProductsBranch(branch._id, branch.name); getBranch(branch._id)"
+                    class="btn btn-sample ms-4"> <i class="fa fa-box" aria-hidden="true"></i>
                     View Products</button>
             </div>
         </div>
@@ -62,9 +81,10 @@
 
 <!--CARDS DE PRODUCTS-->
 <div>
-    <div *ngIf="productsBranch && !viewGrafic" class="container">
+    <div *ngIf="productsBranch && !viewMostSalesProducts && !graphicProducts && !tableProducts" class="container">
         <div class="products-container">
-            <div *ngFor="let product of productsBranch" class="product" data-name="p-1">
+            <div *ngFor="let product of productsBranch | searchProductBranchPipe: searchProducts" class="product"
+                data-name="p-1">
                 <h5 class="card-title">{{product.companyProduct.name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"> {{product.stock}} units</h6>
                 <h6 class="card-subtitle mb-2 text-muted">{{product.sales}} sales</h6>
@@ -267,47 +287,76 @@
 </div>
 
 
-<!--TABLE OF PRODUCTS-->
-<div class="text-center contenedor-grafica-tabla">
-<div style="width:50vw " class="card shadow mb-4 mt-5">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold colorTable">Most Sales Products of "{{companyName}} | {{branchName}}"</h6>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Sales</th>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let product of productTable">
-                        <td>{{productTable.indexOf(product)+1}}</td>
-                        <td>{{product.companyProduct.name}}</td>
-                        <td>Q.{{newPrices[productTable.indexOf(product)]}}</td>
-                        <td>{{product.stock}}</td>
-                        <td>{{product.sales}}</td>
-                    </tr>
-                </tbody>
-            </table>
+<!--PRODUCTOS MÁS VENDIDOS-->
+<div *ngIf="viewMostSalesProducts" class="text-center contenedor-grafica-tabla">
+    <div style="width:50vw " class="card shadow mb-4 mt-5">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold colorTable">Most Sales Products of "{{companyName}} | {{branchName}}"</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Sales</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of productTable">
+                            <td>{{productTable.indexOf(product)+1}}</td>
+                            <td>{{product.companyProduct.name}}</td>
+                            <td>Q.{{newPrices[productTable.indexOf(product)]}}</td>
+                            <td>{{product.stock}}</td>
+                            <td>{{product.sales}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
 
 
-<!--GRÁFICA DE PRODUCTOS MAS VENDIDOS-->
-<div *ngIf="viewGrafic" class="ms-5" style="height:auto; width: 50vw;">
-    <button (click)="ngOnDestroy();graficBar();">BAR</button>
-    <button (click)="ngOnDestroy();graficDonut()">DONUT</button>
-    <button (click)="ngOnDestroy();graficPie()">PIE</button>
-    <button (click)="ngOnDestroy();graficLine()">LINE</button>
-    <div>
-        <canvas id="myChart"></canvas>
+    <!--GRÁFICA DE PRODUCTOS MAS VENDIDOS-->
+    <div class="ms-5" style="height:auto; width: 50vw;">
+        <div class="dropdown">
+            <button class="btn dropdown-toggle drop" data-toggle="dropdown" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Graphic Type:
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li (click)="ngOnDestroy();graficBar();">
+                    <a value="name" class="dropdown-item">
+                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                        Grafic Bar
+                    </a>
+                </li>
+                <li (click)="ngOnDestroy();graficDonut()">
+                    <a class="dropdown-item">
+                        <i class="fa fa-circle-o" aria-hidden="true"></i>
+                        Grafic Donut
+                    </a>
+                </li>
+                <li (click)="ngOnDestroy();graficPie()">
+                    <a class="dropdown-item">
+                        <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                        Grafic Pie
+                    </a>
+                </li>
+                <li (click)="ngOnDestroy();graficLine()">
+                    <a class="dropdown-item">
+                        <i class="fa fa-line-chart" aria-hidden="true"></i>
+                        Grafic Line
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
     </div>
-</div>
 </div>
