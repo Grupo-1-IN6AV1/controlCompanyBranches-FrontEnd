@@ -1,0 +1,374 @@
+<!--TÍTULO DEL COMPONENTE-->
+<div class="head-title">
+    <div class="left">
+        <h1>
+            &nbsp;<i class="fas fa-shopping-bag" aria-hidden="true"></i> Products
+        </h1>
+        <hr>
+    </div>
+</div>
+
+
+<!-- DESPLIEGA LA BÚSQUEDA -->
+<div *ngIf="!showTableProducts" class="form-input mt-5">
+    <input [(ngModel)]="searchProduct" placeholder="Search...">
+    <button type="submit" class="search-btn"><i class='fa fa-search'></i></button>
+</div>
+<br>
+
+
+<!--BOTONES DE ACCESO RÁPIDO-->
+<div class="text-center mt-2 mb-2">
+    <button class="btn btn-success btn-icon-split" data-bs-toggle="modal" data-bs-target="#addProduct">
+        <span class="icon">
+            <i class="fas fa-shopping-bag" aria-hidden="true"></i>
+        </span>
+        <span class="text">Add Product</span>
+    </button>
+    <button *ngIf="!showTableProducts" (click)="showTable()" class="btn btn-secondary btn-icon-split">
+        <span class="icon">
+            <i class="fa fa-table" aria-hidden="true"></i>
+        </span>
+        <span class="text">Table Products</span>
+    </button>
+    <button *ngIf="showTableProducts" (click)="showTable()" class="btn btn-secondary btn-icon-split">
+        <span class="icon">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </span>
+        <span class="text">Return Cards</span>
+    </button>
+    <button routerLink="/admin/home" class="btn btn-primary btn-icon-split">
+        <span class="icon">
+            <i class="fas fa-home"></i>
+        </span>
+        <span class="text">Back Home</span>
+    </button>
+</div>
+<hr>
+
+
+<!--CARDS DE PRODUCTS-->
+<div *ngIf="!showTableProducts">
+    <div class="container">
+        <div class="products-container">
+            <div *ngFor="let product of allProducts" class="product" data-name="p-1">
+                <h5 class="card-title">{{product.name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"> {{product.company.name}} </h6>
+                <p name="category" class="card-text">Q.{{newPrices[allProducts.indexOf(product)]}}</p>
+                <button (click)="getProduct(product._id)" class="btn btn-success m-3" data-bs-toggle="modal"
+                    data-bs-target="#updateProduct" class="btn btn-warning m-2" aria-controls="offcanvasExample">
+                    <i class="fa fa-pencil" aria-hidden="true">
+                    </i> Update
+                </button>
+                <button (click)="deleteProduct(product._id)" class="btn btn-danger"> <i class="fa fa-trash"
+                        aria-hidden="true"></i>
+                    Delete</button>
+                <button (click)="getProduct(product._id)" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#viewProduct" class=" btn btn-secondary ms-2"> <i class="fa fa-eye"
+                        aria-hidden="true"></i>
+                    View</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--MODAL ADD PRODUCT-->
+<div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-shopping-bag" aria-hidden="true"></i>
+                    &nbsp; Add Product:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="saveProduct(addProductForm)" #addProductForm="ngForm">
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Name</label>
+                        <input [(ngModel)]="product.name" name="name" type="text" class="form-control" id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Description</label>
+                        <input [(ngModel)]="product.description" name="description" type="text" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Price</label>
+                        <input [(ngModel)]="product.price" min="0" name="price" type="number" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Provider Name</label>
+                        <input [(ngModel)]="product.providerName" name="providerName" type="text" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Stock</label>
+                        <input [(ngModel)]="product.stock" min="0" name="stock" type="number" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Company</label>
+                        <select [(ngModel)]="product.company" name="user" class="form-select"
+                            aria-label="Default select example">
+                            <option disabled value="" selected>Choose a Company</option>
+                            <option *ngFor="let company of companies" value="{{ company._id }}">{{company.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>Discard Save</button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i> Save Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL UPDATE PRODUCT -->
+<div class="modal fade" id="updateProduct" tabindex="-1" aria-labelledby="updateProduct" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-pencil" aria-hidden="true"></i>
+                    Update Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="updateProduct()" *ngIf="productUpdate">
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Name</label>
+                        <input [(ngModel)]="productUpdate.name" name="name" type="text" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Description</label>
+                        <input [(ngModel)]="productUpdate.description" name="description" type="text"
+                            class="form-control" id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Price</label>
+                        <input [(ngModel)]="productUpdate.price" min="0" name="price" type="number" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Provider Name</label>
+                        <input [(ngModel)]="productUpdate.providerName" name="providerName" type="text"
+                            class="form-control" id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Stock</label>
+                        <input [(ngModel)]="productUpdate.stock" min="0" name="stock" type="number" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i> Discard Update</button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i class="fa fa-floppy-o"
+                                aria-hidden="true"></i> Update Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL SHOW PRODUCT -->
+<div>
+    <div class="modal fade" id="viewProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div *ngIf="productView" class="modal-body">
+                    <div class="descripcion">
+                        <div class="count-container">
+
+                            <div class="box">
+                                <h3>Name:</h3>
+
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.name}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Description:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.description}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Price:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>Q.{{productView.price}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Provider Name:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.providerName}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Stock:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.stock}} unidades</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Company:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.company.name}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--TABLE OF PRODUCTS-->
+<div *ngIf="showTableProducts" class="card shadow mb-4 mt-5">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold colorTable">Products of "Admin"</h6>
+    </div>
+    <div class="form-input-table mt-3 ms-auto">
+        <i *ngIf="productsStockMinor || productsStockElder || productNameUp || productNameDown" (click)="cleanTable()"
+            class="fa fa-times-circle closeFilter mt-2" aria-hidden="true"></i>
+
+        <div class="dropdown">
+            <button class="btn dropdown-toggle drop" data-toggle="dropdown" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Search For:
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li (click)="getFilter('name')"><a value="name" class="dropdown-item">Name</a></li>
+                <li (click)="getFilter('provider')"><a class="dropdown-item">Provider</a></li>
+            </ul>
+        </div>
+        <input [(ngModel)]="searchProduct" placeholder="{{filter}}">
+        <button type="submit" class="search-btn button"><i class='fa fa-search'></i></button>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Company</th>
+                        <th class="stock" *ngIf="!productNameUp && !productNameDown" (click)="getProductsOderByUp()">
+                            Name
+                            <i class="fa fa-sort-alpha-asc  text-gray-400 arrowsTable" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc text-gray-400 ms-3"></i>
+                        </th>
+                        <th class="stock" *ngIf="productNameUp && !productNameDown" (click)="getProductsOderByDown()">
+                            Name
+                            <i class="fa fa-sort-alpha-asc arrowsTable" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc text-gray-400 ms-3"></i>
+                        </th>
+                        <th class="stock" *ngIf="productNameDown" (click)="getProductsOderByUp()">
+                            Name
+                            <i class="fa fa-sort-alpha-asc  text-gray-400 arrowsTable" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc ms-3"></i>
+                        </th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Provider</th>
+                        <th class="stock" *ngIf="!productsStockElder && !productsStockMinor"
+                            (click)="getProductsStockElder()">
+                            Stock
+                            <i class="fa fa-long-arrow-up text-gray-400 arrowsTable"></i>
+                            <i class="fa fa-long-arrow-down ms-1 text-gray-400 "></i>
+                        </th>
+                        <th class="stock" *ngIf="productsStockElder && !productsStockMinor"
+                            (click)="getProductsStockMinor()">
+                            Stock
+                            <i class="fa fa-long-arrow-up  arrowsTable"></i>
+                            <i class="fa fa-long-arrow-down text-gray-400 ms-1"></i>
+                        </th>
+                        <th class="stock" *ngIf="productsStockMinor" (click)="getProductsStockElder()">
+                            Stock
+                            <i class="fa fa-long-arrow-up text-gray-400 arrowsTable"></i>
+                            <i class="fa fa-long-arrow-down ms-1"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="!productsStockElder && !productsStockMinor && !productNameUp && !productNameDown">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
+                        <td>{{allProducts.indexOf(product)+1}}</td>
+                        <td>{{product.company.name}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="productsStockElder && !productsStockMinor && !productNameUp && !productNameDown">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
+                        <td>{{productsStockElder.indexOf(product)+1}}</td>
+                        <td>{{product.company.name}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="productsStockMinor && !productsStockElder  && !productNameUp && !productNameDown">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
+                        <td>{{productsStockMinor.indexOf(product)+1}}</td>
+                        <td>{{product.company.name}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="productNameUp && !productsStockElder && !productsStockMinor && !productNameDown">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
+                        <td>{{productNameUp.indexOf(product)+1}}</td>
+                        <td>{{product.company.name}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="productNameDown && !productsStockElder && !productsStockMinor && !productNameUp">
+                    <tr *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}">
+                        <td>{{productNameDown.indexOf(product)+1}}</td>
+                        <td>{{product.company.name}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>{{product.providerName}}</td>
+                        <td>{{product.stock}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

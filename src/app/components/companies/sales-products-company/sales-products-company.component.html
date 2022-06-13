@@ -1,0 +1,372 @@
+<!--TÍTULO DEL COMPONENTE-->
+<div *ngIf="!viewMostSalesProducts" class="head-title">
+    <div class="left">
+        <h1>
+            &nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i> Sales Products
+        </h1>
+        <hr class="mb-2">
+    </div>
+</div>
+
+<!--TÍTULO DEL COMPONENTE-->
+<div *ngIf="viewMostSalesProducts" class="head-title">
+    <div class="left">
+        <h1>
+            &nbsp;<i class="fa fa-box" aria-hidden="true"></i> Most Sales Products
+        </h1>
+        <hr class="mb-2">
+    </div>
+</div>
+
+<!-- DESPLIEGA LA BÚSQUEDA-->
+<div *ngIf="!viewMostSalesProducts" class="form-input mt-5">
+    <input *ngIf="!productsBranch" [(ngModel)]="searchBranches" placeholder="Search...">
+    <input *ngIf="productsBranch" [(ngModel)]="searchProducts" placeholder="Search...">
+    <button type="submit" class="search-btn"><i class='fa fa-search'></i></button>
+</div>
+<br>
+
+
+
+<!--BOTONES DE ACCESO RÁPIDO-->
+<div class="text-center mt-2 mb-2">
+    <button routerLink="/companies/home" class="btn btn-primary btn-icon-split">
+        <span class="icon">
+            <i class="fas fa-home"></i>
+        </span>
+        <span class="text">Back Home</span>
+    </button>
+    <button *ngIf="shoppingCart.length != 0" routerLink="/companies/sales" class="btn btn-warning btn-icon-split">
+        <span class="icon">
+            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+        </span>
+        <span class="text">Details Sale</span>
+    </button>
+    <button *ngIf="productsBranch && !viewMostSalesProducts" (click)="mostSalesProducts(); table(); graficDonut();"
+        class="btn btn-success btn-icon-split">
+        <span class="icon">
+            <i class="fa fa-box" aria-hidden="true"></i>
+        </span>
+        <span class="text">Most Sales Products</span>
+    </button>
+    <button *ngIf="productsBranch && !viewMostSalesProducts" (click)="getBranches()"
+        class="btn btn-warning btn-icon-split">
+        <span class="icon">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </span>
+        <span class="text">Return Branches</span>
+    </button>
+
+    <button *ngIf="viewMostSalesProducts" (click)="viewProducts()"
+        class="btn btn-warning btn-icon-split">
+        <span class="icon">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </span>
+        <span class="text">Return Products</span>
+    </button>
+</div>
+<hr class="mt-4">
+
+<!--CARDS DE BRANCHS-->
+<div>
+    <div *ngIf="!productsBranch && !viewMostSalesProducts" class="container">
+        <div class="products-container">
+            <div *ngFor="let branch of branches | searchBranch:searchBranches" class="product" data-name="p-1">
+                <h5 class="card-title">{{branch.name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"> {{branch.address}} </h6>
+                <h6 class="card-subtitle mb-2 text-muted">{{branch.township.name}} </h6>
+                <p name="category" class="card-text">{{branch.phone}}</p>
+                <button (click)="getBranch(branch._id)" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#viewBranch" class="btn btn-secondary ms-2"> <i class="fa fa-eye"
+                        aria-hidden="true"></i>
+                    View Branch</button>
+                <button (click)="getProductsBranch(branch._id, branch.name); getBranch(branch._id)"
+                    class="btn btn-sample ms-4"> <i class="fa fa-box" aria-hidden="true"></i>
+                    View Products</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--CARDS DE PRODUCTS-->
+<div>
+    <div *ngIf="productsBranch && !viewMostSalesProducts && !graphicProducts && !tableProducts" class="container">
+        <div class="products-container">
+            <div *ngFor="let product of productsBranch | searchProductBranchPipe: searchProducts" class="product"
+                data-name="p-1">
+                <h5 class="card-title">{{product.companyProduct.name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"> {{product.stock}} units</h6>
+                <h6 class="card-subtitle mb-2 text-muted">{{product.sales}} sales</h6>
+                <p name="category" class="card-text">Q.{{newPrices[productsBranch.indexOf(product)]}}</p>
+                <button (click)="getProductBranch(product._id)" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#viewProduct" class="btn btn-secondary ms-2">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    View
+                </button>
+                <button (click)="getProductBranch(product._id); getProductID(product.companyProduct._id)"
+                    class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#saleProduct"
+                    class="btn btn-sample ms-2">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    Sale
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL SHOW BRANCH -->
+<div>
+    <div class="modal fade" id="viewBranch" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div *ngIf="branchView" class="modal-body">
+                    <div class="descripcion">
+                        <div class="count-container">
+
+                            <div class="box">
+                                <h3>Name:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchView.name}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Addres:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchView.address}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Phone:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchView.phone}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>TownShip:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchView.township.name}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Quantity Products:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchView.products.length}} products</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL SHOW PRODUCT -->
+<div>
+    <div class="modal fade" id="viewProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div *ngIf="productView" class="modal-body">
+                    <div class="descripcion">
+                        <div class="count-container">
+
+                            <div class="box">
+                                <h3>Name:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.companyProduct.name}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Price:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>Q.{{productView.companyProduct.price}}</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Stock:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.stock}} units</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Sales:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{productView.sales}} sales</p>
+                            </div>
+
+                            <div class="box">
+                                <h3>Branch:</h3>
+                            </div>
+
+                            <div class="box">
+                                <p>{{branchName}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--MODAL SALE PRODUCT-->
+<div class="modal fade" id="saleProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    &nbsp; Sale Product:
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="salesProducts(saleProductForm)" *ngIf="saleProduct" #saleProductForm="ngForm">
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Name</label>
+                        <input disabled [(ngModel)]="saleProduct.companyProduct.name" name="name" type="text"
+                            class="form-control" id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Price</label>
+                        <input disabled [(ngModel)]="saleProduct.price" name="price" type="text" class="form-control"
+                            id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Stock</label>
+                        <input disabled [(ngModel)]="saleProduct.stock" min="0" name="stock" type="number"
+                            class="form-control" id="nameTeam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Quantity Sale</label>
+                        <input [(ngModel)]="productQuantity" min="0" name="quantityProductBranch" type="number"
+                            class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Client Name</label>
+                        <input [(ngModel)]="client" name="nameClient" type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">DPI</label>
+                        <input [(ngModel)]="dpi" name="quantityProductBranch" type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">NIT</label>
+                        <input [(ngModel)]="nit" name="quantityProductBranch" type="text" class="form-control">
+                    </div>
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>Discard</button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Sale Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--PRODUCTOS MÁS VENDIDOS-->
+<div *ngIf="viewMostSalesProducts" class="text-center contenedor-grafica-tabla">
+    <div style="width:50vw " class="card shadow mb-4 mt-5">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold colorTable">Most Sales Products of "{{companyName}} | {{branchName}}"</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Sales</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of productTable">
+                            <td>{{productTable.indexOf(product)+1}}</td>
+                            <td>{{product.companyProduct.name}}</td>
+                            <td>Q.{{newPrices[productTable.indexOf(product)]}}</td>
+                            <td>{{product.stock}}</td>
+                            <td>{{product.sales}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--GRÁFICA DE PRODUCTOS MAS VENDIDOS-->
+    <div class="ms-5" style="height:auto; width: 50vw;">
+        <div class="dropdown">
+            <button class="btn dropdown-toggle drop" data-toggle="dropdown" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Graphic Type:
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li (click)="ngOnDestroy();graficBar();">
+                    <a value="name" class="dropdown-item">
+                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                        Grafic Bar
+                    </a>
+                </li>
+                <li (click)="ngOnDestroy();graficDonut()">
+                    <a class="dropdown-item">
+                        <i class="fa fa-circle-o" aria-hidden="true"></i>
+                        Grafic Donut
+                    </a>
+                </li>
+                <li (click)="ngOnDestroy();graficPie()">
+                    <a class="dropdown-item">
+                        <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                        Grafic Pie
+                    </a>
+                </li>
+                <li (click)="ngOnDestroy();graficLine()">
+                    <a class="dropdown-item">
+                        <i class="fa fa-line-chart" aria-hidden="true"></i>
+                        Grafic Line
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+</div>

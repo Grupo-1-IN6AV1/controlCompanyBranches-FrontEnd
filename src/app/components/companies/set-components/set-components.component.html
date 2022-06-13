@@ -1,0 +1,7 @@
+<app-dashboard-companies
+(onToggleSideNav)="onToggleSideNav($event)"
+></app-dashboard-companies>
+<app-body-companies
+[collapsed]="isSideNavCollapsed"
+[screenWidth]="screenWidth"
+></app-body-companies>
