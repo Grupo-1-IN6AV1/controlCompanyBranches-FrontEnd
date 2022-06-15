@@ -108,6 +108,11 @@ hr
   .text-dark {
     color: #5a5c69 !important;
   }
+
+  .text-purple
+  {
+    color: #7D3C98 !important;
+  }
   
   .text-body {
     color: #858796 !important;
@@ -152,6 +157,9 @@ hr
     border-left: 0.25rem solid #4e73df !important;
   }
 
+  .border-left-purple {
+    border-left: 0.25rem solid #7D3C98 !important;
+  }
   
   .border-left-secondary {
     border-left: 0.25rem solid #858796 !important;

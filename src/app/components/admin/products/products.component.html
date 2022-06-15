@@ -66,7 +66,11 @@
                 <button (click)="getProduct(product._id)" class="btn btn-danger" data-bs-toggle="modal"
                     data-bs-target="#viewProduct" class=" btn btn-secondary ms-2"> <i class="fa fa-eye"
                         aria-hidden="true"></i>
-                    View</button>
+                    View</button> <br>
+                <button (click)="getBranch(product.company._id); getProduct(product._id);" class="btn  btn-sample"
+                    data-bs-toggle="modal" data-bs-target="#sendProduct"> <i class="fa fa-paper-plane"
+                        aria-hidden="true"></i>
+                    Send Product</button>
             </div>
         </div>
     </div>
@@ -319,7 +323,7 @@
                         <td>{{product.company.name}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
-                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>Q. {{newPrices[allProducts.indexOf(product)]}}</td>
                         <td>{{product.providerName}}</td>
                         <td>{{product.stock}}</td>
                     </tr>
@@ -330,7 +334,7 @@
                         <td>{{product.company.name}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
-                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>Q. {{newPrices[allProducts.indexOf(product)]}}</td>
                         <td>{{product.providerName}}</td>
                         <td>{{product.stock}}</td>
                     </tr>
@@ -341,7 +345,7 @@
                         <td>{{product.company.name}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
-                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>Q. {{newPrices[allProducts.indexOf(product)]}}</td>
                         <td>{{product.providerName}}</td>
                         <td>{{product.stock}}</td>
                     </tr>
@@ -352,7 +356,7 @@
                         <td>{{product.company.name}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
-                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>Q. {{newPrices[allProducts.indexOf(product)]}}</td>
                         <td>{{product.providerName}}</td>
                         <td>{{product.stock}}</td>
                     </tr>
@@ -363,12 +367,80 @@
                         <td>{{product.company.name}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
-                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>Q. {{newPrices[allProducts.indexOf(product)]}}</td>
                         <td>{{product.providerName}}</td>
                         <td>{{product.stock}}</td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+
+<!--MODAL SEND PRODUCT-->
+<div class="modal fade" id="sendProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div *ngIf="sendProduct" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    &nbsp; Send Product:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="nameTeam" class="form-label">Name</label>
+                    <input disabled value="{{sendProduct.name}}" name="name" type="text" class="form-control"
+                        id="nameTeam">
+                </div>
+                <div class="mb-3">
+                    <label for="nameTeam" class="form-label">Description</label>
+                    <input disabled value="{{sendProduct.description}}" name="description" type="text"
+                        class="form-control" id="nameTeam">
+                </div>
+                <div class="mb-3">
+                    <label for="nameTeam" class="form-label">Stock</label>
+                    <input disabled value="{{sendProduct.stock}} units" min="0" name="stock" type="text"
+                        class="form-control" id="nameTeam">
+                </div>
+                <form #addProductBranchForm="ngForm" (ngSubmit)="sendProductBranch()">
+                    <div class="mb-3">
+                        <label for="nameTeam" class="form-label">Quantity Send</label>
+                        <input [(ngModel)]="productQuantity" min="0" name="quantityProductBranch" type="number"
+                            class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Branch</label><br>
+                        <div class="dropdown">
+                            <button *ngIf="!branchName" class="btn btn-secondary dropdown-toggle" type="button"
+                                id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Choose a Branch
+                            </button>
+                            <ul *ngIf="!branchName" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li class="dropdown-item" (click)="branchProduct(branch)" *ngFor="let branch of branchesCompany">
+                                    <a class="dropdown-item">{{branch.name}}</a>
+                                </li>
+                            </ul>
+                            <button *ngIf="branchName" class="btn btn-secondary dropdown-toggle" type="button"
+                                id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{branchName}}
+                            </button>
+                            <ul *ngIf="branchName" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li class="dropdown-item" (click)="branchProduct(branch)" *ngFor="let branch of branchesCompany">
+                                    <a class="dropdown-item">{{branch.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class=" modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>Discard</button>
+                        <button id="btnModalSend" type="submit" class="btn btn-success" data-bs-dismiss="modal">
+                            <i class="fa fa-paper-plane" aria-hidden="true"></i> Send Product
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

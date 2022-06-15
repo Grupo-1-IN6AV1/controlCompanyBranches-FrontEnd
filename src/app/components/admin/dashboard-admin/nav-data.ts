@@ -30,8 +30,8 @@ export const navbarData = [
         label: 'Branches'
     },
     {
-        routeLink: 'settings',
-        icon: 'fas fa-cog',
-        label: 'Settings'
+        routeLink: 'salesProducts',
+        icon: 'fas fa-shopping-cart',
+        label: 'Sales Products'
     },
 ];

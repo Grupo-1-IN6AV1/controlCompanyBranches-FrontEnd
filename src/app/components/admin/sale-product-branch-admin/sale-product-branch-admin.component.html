@@ -1,0 +1,107 @@
+<!--TÍTULO DEL COMPONENTE-->
+<div class="head-title">
+    <div class="left">
+      <h1>
+        &nbsp;<i class="fa fa-file" aria-hidden="true"></i> Details Sale
+      </h1>
+      <hr>
+    </div>
+  </div>
+  
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card">
+          <div class="card-body p-4">
+  
+            <div class="row">
+  
+              <div class="col-lg-7">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                    <p class="mb-1">Shopping cart</p>
+                    <p class="mb-0">You have {{quantityProduct}} items in your cart</p>
+                  </div>
+                </div>
+  
+                <div *ngFor="let product of products" class="card mb-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div class="d-flex flex-row align-items-center">
+                        <div class="ms-3">
+                          <h5>{{product.product.name}}</h5>
+                          <p class="small mb-0">{{product.product.description}}</p>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center">
+                        <div style="width: 50px;">
+                          <h5 class="fw-normal mb-0">{{product.quantity}}</h5>
+                        </div>
+                        <div style="width: 80px;">
+                          <h5 class="mb-0">Q.{{product.price}}</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col-lg-5">
+  
+                <div class="card colorDetails text-white rounded-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                      <h5 class="mb-0">Sale Details</h5>
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" class="img-fluid rounded-3"
+                        style="width: 45px;" alt="Avatar">
+                    </div>
+  
+                    <form class="mt-4">
+                      <div class="form-outline form-white mb-4">
+                        <input [(ngModel)]="dataClient.client" name="clientName" disabled type="text" id="typeName" class="form-control form-control-lg" siez="17">
+                        <label class="form-label" for="typeName">Client Name:</label>
+                      </div>
+  
+                      <div class="form-outline form-white mb-4">
+                        <input [(ngModel)]="dataClient.dpi" name="clientDPI" disabled type="text" id="typeName" class="form-control form-control-lg" siez="17">
+                        <label class="form-label" for="typeText">DPI:</label>
+                      </div>
+  
+                      <div class="form-outline form-white mb-4">
+                        <input [(ngModel)]="dataClient.NIT" name="clientNIT" disabled type="text" id="typeName" class="form-control form-control-lg" siez="17">
+                        <label class="form-label" for="typeText">NIT:</label>
+                      </div>
+                    </form>
+  
+                    <hr class="my-4">
+  
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">SubTotal</p>
+                      <p class="mb-2">Q.{{dataClient.subTotal}}</p>
+                    </div>
+  
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">IVA</p>
+                      <p class="mb-2">Q.{{dataClient.IVA.toFixed(2)}}</p>
+                    </div>
+  
+                    <div class="d-flex justify-content-between mb-4">
+                      <p class="mb-2">Total</p>
+                      <p class="mb-2">Q.{{dataClient.total}}</p>
+                    </div>
+  
+                    <button (click)="generatePDF();" class="btn btn-primary btn-icon-split">
+                      <span class="icon">
+                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                      </span>
+                      <span class="text">Generate Bill</span>
+                  </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
