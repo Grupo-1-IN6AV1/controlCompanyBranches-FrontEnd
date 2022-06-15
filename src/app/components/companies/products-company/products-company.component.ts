@@ -33,6 +33,7 @@ export class ProductsCompanyComponent implements OnInit {
   productNameUp: any;
   productNameDown: any;
   branches: any;
+ 
 
   //ENVIAR PRODUCTOS A SUCURSAL//
   productBranch: any;
@@ -387,6 +388,7 @@ export class ProductsCompanyComponent implements OnInit {
         });
         addProductBranchForm.reset();
       },
-    })
+    });
+    addProductBranchForm.reset();
   }
 }

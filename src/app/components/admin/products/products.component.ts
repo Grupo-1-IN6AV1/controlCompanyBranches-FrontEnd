@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductModel } from 'src/app/models/product.model';
 import { CompanyAdminRestService } from 'src/app/services/companyAdminRest/company-admin-rest.service';
 import { ProductRestService } from 'src/app/services/productRest/product-rest.service';
 import { CargarScriptsService } from 'src/app/cargar-scripts.service';
 import Swal from 'sweetalert2';
+import { BranchesAdminRestService } from 'src/app/services/branchesAdminRest/branches-admin-rest.service';
+
 
 @Component({
   selector: 'app-products',
@@ -11,6 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
+
 
   //Variables de TypeScript//
   allProducts: any;
@@ -37,13 +40,20 @@ export class ProductsComponent implements OnInit {
 
   //Manejo de Quetzales//
   newPrices: any;
+  companyID: any;
 
 
+  //SendProduct//
+  sendProduct: any;
+  productQuantity: number = 0
+  productBranch :any; 
+  branchesCompany:any;
+  branchName:any;
 
   constructor(
     private productRest: ProductRestService,
     private companyRest: CompanyAdminRestService,
-    private _CargarScripts:CargarScriptsService,
+    private branchRest: BranchesAdminRestService,
   ) {
     this.product = new ProductModel('', '', '', 0, '', 0, '')
   }
@@ -51,6 +61,7 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
     this.getProducts();
     this.getCompanies();
+    this.getFilter('');
   }
 
   getProducts() {
@@ -94,6 +105,7 @@ export class ProductsComponent implements OnInit {
       next: (res: any) => {
         this.productView = res.products;
         this.productUpdate = res.products;
+        this.sendProduct = res.products;
       },
       error: (err) => {alert(err.error.message)}
     })
@@ -326,9 +338,60 @@ export class ProductsComponent implements OnInit {
     })
   }
 
+  getBranch(id : any)
+  {
+    this.companyID = id;
+    this.branchRest.getBranchesCompany(this.companyID).subscribe({
+      next: (res: any) => 
+      {
+        this.branchesCompany = res.getBranches
+      },
+      error: (err) => console.log(err)
+    })
+  }
+
   getFilter(filter: any) {
     this.filterSearch = filter;
     this.filter = filter;
   }
 
+  option: any
+
+  branchProduct(event:any)
+  {
+    this.productBranch = event._id;
+    this.branchName = event.name
+  }
+
+  sendProductBranch()
+  {
+    let product = this.sendProduct._id
+    let params = {cantidad: this.productQuantity, product:product};
+    this.productRest.addProductBranchIsAdmin(this.productBranch, params).subscribe({
+      next: (res: any) => {
+        Swal.fire({
+          icon: 'success',
+          title: res.message,
+          confirmButtonColor: '#28B463'
+        });
+        this.productQuantity = 0
+        this.companyID = this.reset;
+        this.productBranch = this.reset
+        this.branchName = this.reset
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: err.error.message || err.error,
+          confirmButtonColor: '#E74C3C'
+        });
+        this.productQuantity = 0
+        this.companyID = this.reset;
+        this.productBranch = this.reset
+        this.branchName = this.reset
+      },
+    });
+  }
 }
+
+

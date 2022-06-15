@@ -76,6 +76,11 @@ export class ProductRestService {
     return this.http.get(environment.baseUrl+ 'companyProduct/getProductsOrderByDownAdmin', {headers:this.httpOptions});
   }
 
+  addProductBranchIsAdmin(id:string, params:{})
+  {
+    return this.http.post(environment.baseUrl + 'branch/addProductAdmin/' +id , params, {headers: this.httpOptions});
+  }
+
 
   //COMPANY//
 
@@ -115,6 +120,21 @@ export class ProductRestService {
   addProductBranch(id:string, params:{})
   {
     return this.http.post(environment.baseUrl + 'branch/addProduct/' +id , params, {headers: this.httpOptions});
+  }
+
+  deleteProductBranch(id:string, params:{})
+  {
+    return this.http.post(environment.baseUrl + 'branch/deleteProduct/' + id, params, {headers: this.httpOptions});
+  }
+
+  getProductBranch(id:string, params:{})
+  {
+    return this.http.post(environment.baseUrl + 'branch/getProductBranch/' + id, params, {headers: this.httpOptions});
+  }
+
+  updateProductBranch(id:string, params:{})
+  {
+    return this.http.put(environment.baseUrl + 'branch/updateProduct/' + id, params, {headers: this.httpOptions});
   }
 
   productGraphic(id:string)
