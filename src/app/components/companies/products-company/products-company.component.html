@@ -53,7 +53,7 @@
         <div class="products-container">
             <div *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}" class="product" data-name="p-1">
                 <h5 class="card-title">{{product.name}}</h5>
-                <h6 class="card-subtitle mb-2 text-muted"> {{product.stock}} unidades </h6>
+                <h6 class="card-subtitle mb-2 text-muted"> {{product.stock}} units </h6>
                 <p name="category" class="card-text">Q.{{newPrices[allProducts.indexOf(product)]}}</p>
                 <button (click)="getProduct(product._id)" class="btn btn-success m-3" data-bs-toggle="modal"
                     data-bs-target="#updateProduct" class="btn btn-warning m-2" aria-controls="offcanvasExample">
@@ -246,17 +246,17 @@
                 <form (ngSubmit)="sendProductBranch(addProductBranchForm)" *ngIf="sendProduct" #addProductBranchForm="ngForm">
                     <div class="mb-3">
                         <label for="nameTeam" class="form-label">Name</label>
-                        <input disabled [(ngModel)]="sendProduct.name" name="name" type="text" class="form-control"
+                        <input disabled value="{{sendProduct.name}}" name="name" type="text" class="form-control"
                             id="nameTeam">
                     </div>
                     <div class="mb-3">
                         <label for="nameTeam" class="form-label">Description</label>
-                        <input disabled [(ngModel)]="sendProduct.description" name="description" type="text"
+                        <input disabled value="{{sendProduct.description}}" name="description" type="text"
                             class="form-control" id="nameTeam">
                     </div>
                     <div class="mb-3">
                         <label for="nameTeam" class="form-label">Stock</label>
-                        <input disabled [(ngModel)]="sendProduct.stock" min="0" name="stock" type="number" class="form-control"
+                        <input disabled value="{{sendProduct.stock}} units" min="0" name="stock" type="text" class="form-control"
                             id="nameTeam">
                     </div>
                     <div class="mb-3">
@@ -355,7 +355,7 @@
                         <td>{{allProducts.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
-                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>Q. {{newPrices[allProducts.indexOf(product)]}}</td>
                         <td>{{product.providerName}}</td>
                         <td>{{product.stock}}</td>
                     </tr>
@@ -365,7 +365,7 @@
                         <td>{{productsStockElder.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
-                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>Q. {{newPrices[allProducts.indexOf(product)]}}</td>
                         <td>{{product.providerName}}</td>
                         <td>{{product.stock}}</td>
                     </tr>
@@ -375,7 +375,7 @@
                         <td>{{productsStockMinor.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
-                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>Q. {{newPrices[allProducts.indexOf(product)]}}</td>
                         <td>{{product.providerName}}</td>
                         <td>{{product.stock}}</td>
                     </tr>
@@ -385,7 +385,7 @@
                         <td>{{productNameUp.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
-                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>Q. {{newPrices[allProducts.indexOf(product)]}}</td>
                         <td>{{product.providerName}}</td>
                         <td>{{product.stock}}</td>
                     </tr>
@@ -395,7 +395,7 @@
                         <td>{{productNameDown.indexOf(product)+1}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.description}}</td>
-                        <td>Q.{{newPrices[allProducts.indexOf(product)]}}</td>
+                        <td>Q. {{newPrices[allProducts.indexOf(product)]}}</td>
                         <td>{{product.providerName}}</td>
                         <td>{{product.stock}}</td>
                     </tr>

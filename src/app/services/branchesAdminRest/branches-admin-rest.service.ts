@@ -30,6 +30,10 @@ export class BranchesAdminRestService {
     return this.http.get(environment.baseUrl + 'company/getBranchIsAdmin/' + id ,{headers: this.httpOptions});
   }
 
+  getBranchesCompany(id : string){
+    return this.http.get(environment.baseUrl + 'company/getBranchesCompany/' + id, {headers: this.httpOptions});
+  }
+
   saveBranchIsAdmin(params:{})
   {
     return this.http.post(environment.baseUrl + 'branch/saveBranchIsAdmin', params, {headers: this.httpOptions});

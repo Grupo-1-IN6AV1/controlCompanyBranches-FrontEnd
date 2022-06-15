@@ -4,13 +4,13 @@ import { ProductRestService } from 'src/app/services/productRest/product-rest.se
 import Swal from 'sweetalert2';
 import { Chart } from 'chart.js';
 import { BranchesAdminRestService } from 'src/app/services/branchesAdminRest/branches-admin-rest.service';
+
 @Component({
-  selector: 'app-sales-products-company',
-  templateUrl: './sales-products-company.component.html',
-  styleUrls: ['./sales-products-company.component.css']
+  selector: 'app-sales-products-admin',
+  templateUrl: './sales-products-admin.component.html',
+  styleUrls: ['./sales-products-admin.component.css']
 })
-export class SalesProductsCompanyComponent implements OnInit, OnDestroy
-{
+export class SalesProductsAdminComponent implements OnInit {
 
   branches: any;
   searchBranches: any;
@@ -38,12 +38,14 @@ export class SalesProductsCompanyComponent implements OnInit, OnDestroy
 
   //QUETZALES
   newPrices: any;
-  newPrice : any;
+  newPrice: any;
 
+  company: any;
   
   constructor
   (
-    private branchRest: BranchesRestService,
+    private branchRest: BranchesRestService, 
+    private branchRestAdmin: BranchesAdminRestService, 
     private productRest: ProductRestService,
   )
   { }
@@ -57,18 +59,20 @@ export class SalesProductsCompanyComponent implements OnInit, OnDestroy
   getBranches()
   {
     this.productsBranch = this.reset
-    this.branchRest.getBranches().subscribe({
+    this.company = this.reset
+    this.branchRestAdmin.getBranchesIsAdmin().subscribe({
       next: (res: any) => 
-      {this.branches = res.getBranches},
+      {this.branches = res.getBranchesIsAdmin},
       error: (err) => console.log(err)
     })
   }
 
   getBranch(id: string) {
-    this.branchRest.getBranch(id).subscribe({
+    this.branchRestAdmin.getBranchIsAdmin(id).subscribe({
       next: (res: any) => {
         this.branchView = res.getBranch
         this.companyName = res.getBranch.company.name
+        this.company = res.getBranch.company._id
       },
       error: (err) => { alert(err.error.message) }
     })
@@ -78,7 +82,7 @@ export class SalesProductsCompanyComponent implements OnInit, OnDestroy
   {
     this.branchName = name;
     this.branchID = id;
-    this.branchRest.getProducts(id).subscribe({
+    this.branchRest.getProductsIsAdmin(id).subscribe({
       next: (res: any) => {
         this.productsBranch = res.productsBranch
         console.log(this.productsBranch)
@@ -139,9 +143,10 @@ export class SalesProductsCompanyComponent implements OnInit, OnDestroy
     let NIT = this.nit;
     let client = this.client;
     let dpi = this.dpi;
+    let company = this.company
 
-    let params = {product: product, quantity:quantity, NIT:NIT, client:client, dpi:dpi};
-    this.branchRest.saleProduct(this.branchID, params).subscribe({
+    let params = {product: product, quantity:quantity, NIT:NIT, client:client, dpi:dpi, company:company};
+    this.branchRest.saleProductIsAdmin(this.branchID, params).subscribe({
       next: (res: any) => {
         Swal.fire({
           icon: 'success',

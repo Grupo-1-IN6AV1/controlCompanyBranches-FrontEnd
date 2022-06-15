@@ -37,6 +37,10 @@ import { SearchBrachAdminPipe } from './pipes/branchAdmin/search-branch-admin.pi
 import { SalesProductsCompanyComponent } from './components/companies/sales-products-company/sales-products-company.component';
 import { SalesProductComponent } from './components/companies/sales-product/sales-product.component';
 import { ProductBranchPipePipe } from './pipes/productBranchPipe/product-branch-pipe.pipe';
+import { SalesProductsAdminComponent } from './components/admin/sales-products-admin/sales-products-admin.component';
+import { SearchProductTablePipe } from './pipes/searchProductTable/search-product-table.pipe';
+import { SearchProductNamePipe } from './pipes/searchProductName/search-product-name.pipe';
+import { SaleProductBranchAdminComponent } from './components/admin/sale-product-branch-admin/sale-product-branch-admin.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +74,10 @@ import { ProductBranchPipePipe } from './pipes/productBranchPipe/product-branch-
     SalesProductsCompanyComponent,
     SalesProductComponent,
     ProductBranchPipePipe,
+    SalesProductsAdminComponent,
+    SearchProductTablePipe,
+    SearchProductNamePipe,
+    SaleProductBranchAdminComponent,
   ],
   imports: [
     BrowserModule,

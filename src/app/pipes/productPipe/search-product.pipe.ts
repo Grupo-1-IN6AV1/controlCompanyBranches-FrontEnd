@@ -7,7 +7,6 @@ export class SearchProductPipe implements PipeTransform {
 
   transform(allproducts:any, search:any)
   { 
-    console.log(search)
     //Todos los Productos//
     if(search.searchProduct == undefined && search.filterSearch =='')
     {
