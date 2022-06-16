@@ -51,7 +51,7 @@
 <div *ngIf="!showTableProducts">
     <div class="container">
         <div class="products-container">
-            <div *ngFor="let product of allProducts" class="product" data-name="p-1">
+            <div *ngFor="let product of allProducts | searchProduct:{searchProduct,filterSearch}" class="product" data-name="p-1">
                 <h5 class="card-title">{{product.name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"> {{product.company.name}} </h6>
                 <p name="category" class="card-text">Q.{{newPrices[allProducts.indexOf(product)]}}</p>
